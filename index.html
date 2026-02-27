@@ -4,297 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HTML + CSS Demo</title>
-  <style>
-    /* Sayfa genel ayar */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-/* Üst bar */
-.topbar {
-  position: fixed;          /* Sayfanın üstüne sabitler */
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: black;  /* Siyah arka plan */
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-
-/* Logo */
-.brand {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-/* Menü */
-.topnav {
-  display: flex;
-  gap: 10px;
-}
-
-/* Menü linkleri kutu şeklinde */
-.topnav__link {
-  text-decoration: none;
-  color: white;
-  background-color: #222;
-  padding: 8px 15px;
-  border: 1px solid white;
-  border-radius: 5px;
-  transition: 0.3s;
-}
-
-/* Hover efekti */
-.topnav__link:hover {
-  background-color: white;
-  color: black;
-}
-
-/* Aktif menü */
-.topnav__link.is-active {
-  background-color: white;
-  color: black;
-}
-
-/* Kullanıcı kutusu */
-.user__pill {
-  background-color: #444;
-  padding: 8px 15px;
-  border-radius: 20px;
-  border: 1px solid white;
-}
-
-/* İçeriğin üst menünün altında kalmaması için boşluk */
-body {
-  padding-top: 80px;
-}
-/* Layout yapısı */
-.layout {
-  display: flex;
-}
-
-/* Sidebar */
-.sidebar {
-  position: fixed;           /* Sabit yan menü */
-  top: 80px;                 /* Header yüksekliği kadar aşağıdan başlasın */
-  left: 0;
-  width: 240px;
-  height: calc(100vh - 80px);
-  background-color: #111;    /* Siyah arka plan */
-  color: white;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto;
-}
-
-/* Başlık */
-.sidebar__title {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 18px;
-  border-bottom: 1px solid #444;
-  padding-bottom: 8px;
-}
-
-/* Menü linkleri */
-.sidebar__link {
-  display: block;
-  text-decoration: none;
-  color: white;
-  background-color: #222;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 5px;
-  transition: 0.3s;
-}
-
-/* Hover efekti */
-.sidebar__link:hover {
-  background-color: white;
-  color: black;
-}
-
-/* Aktif link */
-.sidebar__link.is-active {
-  background-color: white;
-  color: black;
-}
-
-/* Kart alanı */
-.sidebar__card {
-  margin-top: 20px;
-  background-color: #1e1e1e;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #333;
-}
-
-.sidebar__cardTitle {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-}
-
-.sidebar__cardText {
-  font-size: 14px;
-  color: #ccc;
-}
-/* Main içerik alanı */
-.content {
-  margin-left: 260px;     /* Sidebar genişliği */
-  padding: 40px;
-  background-color: #f4f4f4;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-/* Kart tasarımı */
-.card {
-  background-color: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  max-width: 800px;
-  margin: 0 auto;          /* Ortalar */
-  border: 1px solid #ddd;
-}
-
-/* Başlık */
-.card__title {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 22px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 8px;
-}
-
-/* Metin */
-.card__text {
-  line-height: 1.6;
-  color: #333;
-}
-
-/* Badge alanı */
-.badges {
-  margin-top: 20px;
-}
-
-/* Badge tasarımı */
-.badge {
-  display: inline-block;
-  background-color: black;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  transition: 0.3s;
-}
-
-/* Hover efekti */
-.badge:hover {
-  background-color: #444;
-}
-/* Tablo kapsayıcı */
-.tableWrap {
-  margin-top: 20px;
-  overflow-x: auto;
-}
-
-/* Tablo genel */
-.dataTable {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-/* Başlık satırı */
-.dataTable thead {
-  background-color: black;
-  color: white;
-}
-
-.dataTable th {
-  padding: 12px;
-  text-align: left;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-/* Hücreler */
-.dataTable td {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-}
-
-/* Satır hover efekti */
-.dataTable tbody tr:hover {
-  background-color: #f2f2f2;
-}
-
-/* Alternatif satır rengi */
-.dataTable tbody tr:nth-child(even) {
-  background-color: #fafafa;
-}
-
-/* Alt açıklama */
-.muted {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #777;
-}
-/* Sayfa yapısını dikey hizalama */
-body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Ana içerik alanı büyüsün */
-.layout {
-  flex: 1;
-  display: flex;
-}
-
-/* Footer */
-.footer {
-  background-color: black;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  font-size: 14px;
-}
-
-/* Ayırıcı nokta */
-.footer__sep {
-  margin: 0 8px;
-  color: #777;
-}
-
-/* Footer linkleri */
-.footer__link {
-  color: white;
-  text-decoration: none;
-  margin: 0 5px;
-  transition: 0.3s;
-}
-
-.footer__link:hover {
-  text-decoration: underline;
-  color: #ccc;
-}
-  </style>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -337,8 +46,10 @@ body {
     <!-- MAIN CONTENT -->
     <main class="content">
       <section class="card">
-        <h1 class="card__title">1. Hafta: HTML & CSS Sayfa İskeleti</h1>
-        <p class="card__text">
+        <h1 class="card__title" id="haftaBaslik">
+          1. Hafta: HTML & CSS Sayfa İskeleti
+        </h1>
+        <p class="card__text" id="degisecekYazi">
           Bu örnekte <strong>üst menü</strong>, <strong>yan menü</strong> ve ortada
           <strong>3x5 tablo</strong> bulunuyor. Öğrenciler için sınıfta “kutu modeli, padding,
           margin, border, hover, active” gibi konuları göstermek için ideal.
@@ -350,6 +61,8 @@ body {
           <span class="badge">Tablo</span>
           <span class="badge">Hover</span>
         </div>
+        <button class="jsButton" id="jsBtn">Butona Bas</button>
+        <p id="jsMesaj" class="jsText"></p>
       </section>
 
       <section class="card">
@@ -380,12 +93,18 @@ body {
             </tbody>
           </table>
         </div>
-
+        <button class="jsButton" id="siralaBtn">Sırala (Vize ↓)</button>
         <p class="muted">
           Not: Bu tablo 3 satır (öğrenci) ve 5 sütun içerir.
         </p>
       </section>
-
+      <div class="footerImage">
+        <img src="css3-html5.png" alt="Logo" id="degisenResim">
+      
+        <br><br>
+      
+        <button class="jsButton" id="degistirBtn">Değiştir</button>
+      </div>
       <footer class="footer">
         <span>© 2026 - Web Programming</span>
         <span class="footer__sep">•</span>
@@ -394,5 +113,6 @@ body {
       </footer>
     </main>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>
