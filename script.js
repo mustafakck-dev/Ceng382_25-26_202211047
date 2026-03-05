@@ -38,3 +38,24 @@ const resim = document.getElementById("degisenResim");
 degistirBtn.addEventListener("click", function () {
     resim.src = "js.png";
 });
+const kutu = document.getElementById("animBox");
+
+let pozisyon = 0;
+let yon = 1; // 1 = sağa , -1 = sola
+
+function animasyon() {
+
+    pozisyon += yon * 3;
+
+    if (pozisyon >= 1100) {
+        yon = -1; // sola dön
+    }
+
+    if (pozisyon <= 0) {
+        yon = 1; // sağa dön
+    }
+
+    kutu.style.left = pozisyon + "px";
+}
+
+setInterval(animasyon, 20);
