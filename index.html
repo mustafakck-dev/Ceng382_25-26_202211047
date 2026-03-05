@@ -105,6 +105,23 @@
       
         <button class="jsButton" id="degistirBtn">Değiştir</button>
       </div>
+      <h2>Bug Gibi Görünen JavaScript Kodu</h2>
+
+<div class="code-box">
+<pre><code>
+// Bu kod çoğu kişiye bug gibi görünür
+
+console.log([] + []);
+
+// Beklenen: []
+// Gerçek çıktı: ""
+</code></pre>
+</div>
+
+<div class="note">
+<strong>Önemli Not:</strong> JavaScript'te <b>+</b> operatörü string birleştirme
+için de kullanılır. Array string'e çevrilir ve sonuç boş string olur.
+</div>
       <div class="animationArea">
         <div id="animBox"></div>
       </div>

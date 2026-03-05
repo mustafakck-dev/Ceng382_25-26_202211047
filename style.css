@@ -337,3 +337,23 @@ body {
   top: 30px;
   border-radius: 8px;
 }
+h2{
+  margin-bottom:20px;
+  }
+  
+  .code-box{
+  background:#2d2d2d;
+  color:#e6e6e6;
+  padding:20px;
+  border-radius:8px;
+  font-family: monospace;
+  overflow-x:auto;
+  }
+  
+  .note{
+  margin-top:15px;
+  background:#eef4ff;
+  border-left:5px solid #3b82f6;
+  padding:12px;
+  font-size:14px;
+  }
