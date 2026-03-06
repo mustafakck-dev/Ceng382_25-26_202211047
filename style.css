@@ -331,11 +331,30 @@ body {
 #animBox {
   width: 60px;
   height: 60px;
-  background-color: black;
+  background-color: rgb(77, 222, 29);
   position: absolute;
   left: 0;
   top: 30px;
   border-radius: 8px;
+}
+
+@keyframes boxJump {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-40px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+#animBox.jump {
+  animation: boxJump 0.4s ease-out;
 }
 h2{
   margin-bottom:20px;

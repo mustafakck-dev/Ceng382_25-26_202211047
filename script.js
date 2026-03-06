@@ -59,3 +59,16 @@ function animasyon() {
 }
 
 setInterval(animasyon, 20);
+
+kutu.addEventListener("click", function () {
+    // Zıplama animasyonu için sınıf ekle
+    kutu.classList.add("jump");
+
+    // Animasyon bitince sınıfı kaldır
+    function animasyonBitti() {
+        kutu.classList.remove("jump");
+        kutu.removeEventListener("animationend", animasyonBitti);
+    }
+
+    kutu.addEventListener("animationend", animasyonBitti);
+});
