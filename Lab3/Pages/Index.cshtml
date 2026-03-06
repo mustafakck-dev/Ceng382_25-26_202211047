@@ -1,10 +1,73 @@
-﻿@page
+@page
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
+<div class="container mt-4">
+    <button id="harfnotlarınıgetir" name="harfnotlarınıgetir" onclick="harfnotlarınıgetir()" class="btn btn-primary mb-3">Harf Notlarını Getir</button>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Ad Soyad</th>
+                <th>Vize (Midterm)</th>
+                <th>Final</th>
+                <th>Harf Notu</th>
+            </tr>
+        </thead>
+        <tbody id="studentTableBody">
+            </tbody>
+    </table>
 </div>
+<script>
+    // 1. Verilerin tutulduğu dizi (Array)
+    const ogrenciler = [
+        { ad: "Yunus Emre Özcan", midterm: 69, final: 89 },
+        { ad: "Mustafa Küçük", midterm: 65, final: 89 },
+        { ad: "Eren Civil", midterm: 65, final: 99 }
+    ];
+
+    function tabloyuDoldur() {
+        const tabloGövdesi = document.getElementById('studentTableBody');
+        
+        tabloGövdesi.innerHTML = "";
+
+        // 2. Dizideki verileri tabloya ekle
+        ogrenciler.forEach((ogrenci, index) => {
+            const satir = `
+                <tr>
+                    <td>${ogrenci.ad}</td>
+                    <td>${ogrenci.midterm}</td>
+                    <td>${ogrenci.final}</td>
+                    <td class="harf-notu" data-index="${index}"></td>
+                </tr>`;
+            tabloGövdesi.innerHTML += satir;
+        });
+    }
+
+    function harfNotuHesapla(notOrtalamasi) {
+        if (notOrtalamasi >= 90) return "AA";
+        if (notOrtalamasi >= 85) return "BA";
+        if (notOrtalamasi >= 80) return "BB";
+        if (notOrtalamasi >= 75) return "CB";
+        if (notOrtalamasi >= 70) return "CC";
+        if (notOrtalamasi >= 65) return "DC";
+        if (notOrtalamasi >= 60) return "DD";
+        if (notOrtalamasi >= 50) return "FD";
+        return "FF";
+    }
+
+    function harfnotlarınıgetir() {
+        const harfNotuHucreleri = document.querySelectorAll('#studentTableBody .harf-notu');
+
+        harfNotuHucreleri.forEach((hucre) => {
+            const index = Number(hucre.dataset.index);
+            const ogrenci = ogrenciler[index];
+
+            const ortalama = (ogrenci.midterm * 0.4) + (ogrenci.final * 0.6);
+            hucre.textContent = harfNotuHesapla(ortalama);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", tabloyuDoldur);
+</script>
