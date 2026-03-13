@@ -1,1 +1,63 @@
-﻿
+﻿@model List<Lab4.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">Registered Users</h1>
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Address</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var user in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @if (user.Photo != null)
+                            {
+                                <img src="/User/ProfilePhoto/@user.Id"
+                                     style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #ccc;" />
+                            }
+                            else
+                            {
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                     style="width:50px;height:50px;border-radius:50%;object-fit:cover;" />
+                            }
+                        </td>
+
+                        <td>@user.Name</td>
+                        <td>@user.Surname</td>
+                        <td>@user.Address</td>
+                        <td>@user.Email</td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">
+                        No registered users found.
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
