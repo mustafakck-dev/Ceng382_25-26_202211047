@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using Lab4.Data;
 using Lab4.Models;
+using Lab4.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace Lab4.Controllers
 {
@@ -19,8 +20,36 @@ namespace Lab4.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = await _context.Users.ToListAsync();
-            return View(users);
+            var vm = new HomeIndexViewModel
+            {
+                Users = await _context.Users.ToListAsync(),
+                Images = await _context.Images.ToListAsync()
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(IFormFile imageFile)
+        {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                using var memoryStream = new MemoryStream();
+                await imageFile.CopyToAsync(memoryStream);
+
+                var image = new Lab4.Models.Media.ImageItem
+                {
+                    FileName = imageFile.FileName,
+                    ContentType = imageFile.ContentType,
+                    Size = imageFile.Length,
+                    Data = memoryStream.ToArray()
+                };
+
+                _context.Images.Add(image);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

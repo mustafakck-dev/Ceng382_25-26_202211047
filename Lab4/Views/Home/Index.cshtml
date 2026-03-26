@@ -1,63 +1,196 @@
-﻿@model List<Lab4.Models.ApplicationUser>
+﻿@model Lab4.Models.ViewModels.HomeIndexViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .card-box {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        background-color: white;
+    }
+
+    .gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .gallery-card {
+        width: 200px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .gallery-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ccc;
+    }
+</style>
+
 <div class="container mt-4">
 
-    <h1 class="mb-4">Registered Users</h1>
+    <div class="card-box">
+        <h2>Registered Users</h2>
 
-    <table class="table table-striped table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Address</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @if (Model != null && Model.Count > 0)
-            {
-                foreach (var user in Model)
+        <table class="table table-striped table-bordered table-hover mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Users != null && Model.Users.Count > 0)
+                {
+                    foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                @if (user.Photo != null)
+                                {
+                                    var base64 = Convert.ToBase64String(user.Photo);
+                                    var imgSrc = $"data:{user.PhotoContentType};base64,{base64}";
+                                    <img src="@imgSrc" class="avatar" />
+                                }
+                                else
+                                {
+                                    <div class="avatar bg-light d-flex align-items-center justify-content-center">-</div>
+                                }
+                            </td>
+                            <td>@user.Name</td>
+                            <td>@user.Surname</td>
+                            <td>@user.Address</td>
+                            <td>@user.Email</td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-
-                        <td>
-                            @if (user.Photo != null)
-                            {
-                                <img src="/User/ProfilePhoto/@user.Id"
-                                     style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #ccc;" />
-                            }
-                            else
-                            {
-                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                                     style="width:50px;height:50px;border-radius:50%;object-fit:cover;" />
-                            }
-                        </td>
-
-                        <td>@user.Name</td>
-                        <td>@user.Surname</td>
-                        <td>@user.Address</td>
-                        <td>@user.Email</td>
-
+                        <td colspan="5" class="text-center">No registered users found.</td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="5" class="text-center">
-                        No registered users found.
-                    </td>
-                </tr>
-            }
+            </tbody>
+        </table>
+    </div>
 
-        </tbody>
-    </table>
+    <div class="card-box">
+        <h2>Gallery Card with JavaScript Method</h2>
+        <p>This method only previews images in the browser using FileReader. It does not save anything to the database.
+        </p>
+
+        <div class="mb-3">
+            <input type="file" id="imageInput" class="form-control" accept="image/*" />
+        </div>
+
+        <div id="jsGalleryContainer" class="gallery-container"></div>
+    </div>
+
+    <div class="card-box">
+        <h2>Gallery Card with C# Method</h2>
+        <p>This method uploads files to the server and saves them in the database.</p>
+
+        <form asp-action="UploadImage" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <input type="file" name="imageFile" class="form-control" accept="image/*" />
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Image</button>
+        </form>
+
+        <div class="gallery-container">
+            @if (Model.Images != null && Model.Images.Count > 0)
+            {
+                foreach (var image in Model.Images)
+                {
+                    var base64 = Convert.ToBase64String(image.Data);
+                    var imgSrc = $"data:{image.ContentType};base64,{base64}";
+
+                    <div class="gallery-card">
+                        <img src="@imgSrc" />
+                        <p>@image.FileName</p>
+                        <small>@image.Size bytes</small>
+                    </div>
+                }
+            }
+        </div>
+    </div>
 
 </div>
+<div class="card-box">
+    <h2>Security Analysis</h2>
+
+    <h5>Identified Vulnerability: Unrestricted File Upload</h5>
+
+    <p>
+        The application allows users to upload files using IFormFile without validating file type, size, or content.
+        In the UploadImage action, the file is directly read into a MemoryStream and saved into the database without any
+        security checks.
+    </p>
+
+    <p><strong>Where it appears:</strong></p>
+    <ul>
+        <li>HomeController → UploadImage method</li>
+        <li>Register page → profile photo upload</li>
+    </ul>
+
+    <p><strong>Possible consequences:</strong></p>
+    <ul>
+        <li>Malicious file upload</li>
+        <li>Database pollution</li>
+        <li>Denial of service (large files)</li>
+        <li>Potential unauthorized access</li>
+    </ul>
+
+    <p><strong>Note:</strong> No fix is implemented as required by the assignment.</p>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("imageInput").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const galleryContainer = document.getElementById("jsGalleryContainer");
+
+                const card = document.createElement("div");
+                card.className = "gallery-card";
+
+                card.innerHTML = `
+                            <img src="${e.target.result}" />
+                            <p>${file.name}</p>
+                        `;
+
+                galleryContainer.innerHTML = "";
+                galleryContainer.appendChild(card);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+}
