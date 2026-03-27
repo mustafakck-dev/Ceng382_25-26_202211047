@@ -61,6 +61,8 @@ public partial class NorthwindContext : DbContext
 
     public virtual DbSet<Shipper> Shippers { get; set; }
 
+    public virtual DbSet<ShipperContactInfo> ShipperContactInfos { get; set; }
+
     public virtual DbSet<SummaryOfSalesByQuarter> SummaryOfSalesByQuarters { get; set; }
 
     public virtual DbSet<SummaryOfSalesByYear> SummaryOfSalesByYears { get; set; }
@@ -539,6 +541,28 @@ public partial class NorthwindContext : DbContext
             entity.Property(e => e.ShipperId).HasColumnName("ShipperID");
             entity.Property(e => e.CompanyName).HasMaxLength(40);
             entity.Property(e => e.Phone).HasMaxLength(24);
+        });
+
+        modelBuilder.Entity<ShipperContactInfo>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ShipperC__3214EC27E426CCB8");
+
+            entity.ToTable("ShipperContactInfo");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Address).HasMaxLength(150);
+            entity.Property(e => e.City).HasMaxLength(50);
+            entity.Property(e => e.Country).HasMaxLength(50);
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.Phone).HasMaxLength(30);
+            entity.Property(e => e.PostalCode).HasMaxLength(20);
+            entity.Property(e => e.ShipperId).HasColumnName("ShipperID");
+            entity.Property(e => e.Website).HasMaxLength(100);
+
+            entity.HasOne(d => d.Shipper).WithMany(p => p.ShipperContactInfos)
+                .HasForeignKey(d => d.ShipperId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ShipperContactInfo_Shippers");
         });
 
         modelBuilder.Entity<SummaryOfSalesByQuarter>(entity =>

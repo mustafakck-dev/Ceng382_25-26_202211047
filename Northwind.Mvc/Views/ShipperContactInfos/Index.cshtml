@@ -1,0 +1,35 @@
+@model IEnumerable<Northwind.Mvc.Models.ShipperContactInfo>
+
+<h2>Shipper Contact Info</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Shipper</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Postal Code</th>
+            <th>Website</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Shipper?.CompanyName</td>
+                <td>@item.Phone</td>
+                <td>@item.Email</td>
+                <td>@item.Address</td>
+                <td>@item.City</td>
+                <td>@item.Country</td>
+                <td>@item.PostalCode</td>
+                <td>@item.Website</td>
+            </tr>
+        }
+    </tbody>
+</table>

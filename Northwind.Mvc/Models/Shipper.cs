@@ -12,4 +12,6 @@ public partial class Shipper
     public string? Phone { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<ShipperContactInfo> ShipperContactInfos { get; set; } = new List<ShipperContactInfo>();
 }
