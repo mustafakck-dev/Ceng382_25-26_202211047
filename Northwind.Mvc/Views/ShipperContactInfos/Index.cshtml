@@ -1,7 +1,8 @@
-@model IEnumerable<Northwind.Mvc.Models.ShipperContactInfo>
+@model Northwind.Mvc.Models.ShipperContactInfoPageViewModel
 
 <h2>Shipper Contact Info</h2>
 
+<h3>Hard Delete Table</h3>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -14,10 +15,11 @@
             <th>Country</th>
             <th>Postal Code</th>
             <th>Website</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.ActiveItems)
         {
             <tr>
                 <td>@item.Id</td>
@@ -29,7 +31,109 @@
                 <td>@item.Country</td>
                 <td>@item.PostalCode</td>
                 <td>@item.Website</td>
+                <td>
+                    <a asp-action="Index" asp-route-editId="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+
+                    <form asp-action="HardDelete" asp-route-id="@item.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<h3>Soft Delete Table</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Shipper</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Postal Code</th>
+            <th>Website</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ActiveItems)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Shipper?.CompanyName</td>
+                <td>@item.Phone</td>
+                <td>@item.Email</td>
+                <td>@item.Address</td>
+                <td>@item.City</td>
+                <td>@item.Country</td>
+                <td>@item.PostalCode</td>
+                <td>@item.Website</td>
+                <td>
+                    <a asp-action="Index" asp-route-editId="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+
+                    <form asp-action="SoftDelete" asp-route-id="@item.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-secondary btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.EditItem != null)
+{
+    <hr />
+    <h3>Edit Form</h3>
+
+    <form asp-action="UpdateInline" method="post">
+        <input type="hidden" asp-for="EditItem.Id" name="Id" />
+        <input type="hidden" asp-for="EditItem.IsDeleted" name="IsDeleted" />
+
+        <div class="mb-2">
+            <label>Shipper ID</label>
+            <input class="form-control" asp-for="EditItem.ShipperId" name="ShipperId" />
+        </div>
+
+        <div class="mb-2">
+            <label>Phone</label>
+            <input class="form-control" asp-for="EditItem.Phone" name="Phone" />
+        </div>
+
+        <div class="mb-2">
+            <label>Email</label>
+            <input class="form-control" asp-for="EditItem.Email" name="Email" />
+        </div>
+
+        <div class="mb-2">
+            <label>Address</label>
+            <input class="form-control" asp-for="EditItem.Address" name="Address" />
+        </div>
+
+        <div class="mb-2">
+            <label>City</label>
+            <input class="form-control" asp-for="EditItem.City" name="City" />
+        </div>
+
+        <div class="mb-2">
+            <label>Country</label>
+            <input class="form-control" asp-for="EditItem.Country" name="Country" />
+        </div>
+
+        <div class="mb-2">
+            <label>Postal Code</label>
+            <input class="form-control" asp-for="EditItem.PostalCode" name="PostalCode" />
+        </div>
+
+        <div class="mb-2">
+            <label>Website</label>
+            <input class="form-control" asp-for="EditItem.Website" name="Website" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+}

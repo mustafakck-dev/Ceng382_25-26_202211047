@@ -23,5 +23,7 @@ public partial class ShipperContactInfo
 
     public string? Website { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public virtual Shipper Shipper { get; set; } = null!;
 }
