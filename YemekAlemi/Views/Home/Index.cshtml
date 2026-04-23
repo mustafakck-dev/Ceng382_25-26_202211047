@@ -1,5 +1,30 @@
-﻿<h1>Yemek Alemi - Week 1</h1>
+﻿@model List<YemekAlemi.Models.Food>
 
-<p>Bu proje ASP.NET MVC ile oluşturulmuştur.</p>
+<h2>Available Menus</h2>
 
-<p>Week 1: Proje kurulumu ve temel sayfa yapısı</p>
+@if (!Model.Any())
+{
+    <p>No menu items available yet.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Menu Name</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price ₺</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

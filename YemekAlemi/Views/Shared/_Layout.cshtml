@@ -1,13 +1,51 @@
-﻿<nav style="background:#2d6a4f; padding:10px;">
-    <a href="/" style="color:white; margin-right:10px;">YemekAlemi</a>
-    <a href="/Home/Index" style="color:white; margin-right:10px;">Home</a>
-    <a href="/Food" style="color:white;">Foods</a>
-</nav>
+﻿<!DOCTYPE html>
+<html lang="en">
 
-<div class="container">
-    @RenderBody()
-</div>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YemekAlemi</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
 
-<footer style="background:#222; color:white; text-align:center; padding:10px; position:fixed; bottom:0; width:100%;">
-    © 2026 YemekAlemi
-</footer>
+<body>
+
+    <nav style="background:#2d6a4f; padding:10px;">
+        <a href="/" style="color:white; margin-right:10px;">YemekAlemi</a>
+        <a href="/Home/Index" style="color:white; margin-right:10px;">Home</a>
+
+        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Caretaker"))
+        {
+            <a href="/Foods/Create" style="color:white; margin-right:10px;">Create Food</a>
+        }
+
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <span style="color:white; margin-right:10px;">Hello @User.Identity.Name</span>
+
+            <form method="post" action="/Identity/Account/Logout" style="display:inline;">
+                <button type="submit" style="background:none; border:none; color:white; cursor:pointer; margin-left:10px;">
+                    Logout
+                </button>
+            </form>
+        }
+        else
+        {
+            <a href="/Identity/Account/Login" style="color:white; margin-right:10px;">Login</a>
+            <a href="/Identity/Account/Register" style="color:white; margin-right:10px;">Register</a>
+        }
+    </nav>
+
+    <div class="container" style="padding:20px;">
+        @RenderBody()
+    </div>
+
+    <footer
+        style="background:#222; color:white; text-align:center; padding:10px; position:fixed; bottom:0; width:100%;">
+        © 2026 YemekAlemi
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
