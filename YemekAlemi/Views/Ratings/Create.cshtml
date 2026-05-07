@@ -1,0 +1,35 @@
+@model YemekAlemi.Models.Rating
+
+<h1>Rate Your Order</h1>
+
+<h3>Food: @ViewBag.FoodName</h3>
+
+<form asp-action="Create" method="post">
+    <input type="hidden" asp-for="OrderId" value="@ViewBag.OrderId" />
+    <input type="hidden" asp-for="FoodId" value="@ViewBag.FoodId" />
+
+    <label>Menu Item Rating</label>
+    <select asp-for="MenuRating" required>
+        <option value="">Select rating</option>
+        <option value="1">1 - Very Bad</option>
+        <option value="2">2 - Bad</option>
+        <option value="3">3 - Average</option>
+        <option value="4">4 - Good</option>
+        <option value="5">5 - Excellent</option>
+    </select>
+
+    <label>Caterer Rating</label>
+    <select asp-for="CatererRating" required>
+        <option value="">Select rating</option>
+        <option value="1">1 - Very Bad</option>
+        <option value="2">2 - Bad</option>
+        <option value="3">3 - Average</option>
+        <option value="4">4 - Good</option>
+        <option value="5">5 - Excellent</option>
+    </select>
+
+    <label>Comment</label>
+    <textarea asp-for="Comment" required></textarea>
+
+    <button type="submit">Submit Rating</button>
+</form>

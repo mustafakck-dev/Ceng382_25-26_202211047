@@ -1,0 +1,50 @@
+@model List<YemekAlemi.Models.Order>
+
+<h1>My Completed Orders</h1>
+
+@if (TempData["Message"] != null)
+{
+    <p style="color:red;">@TempData["Message"]</p>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <p>You do not have any completed orders yet.</p>
+}
+else
+{
+    @foreach (var order in Model)
+    {
+        <div
+            style="background:white; padding:20px; margin-bottom:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+            <h3>Order #@order.Id</h3>
+            <p><strong>Total:</strong> @order.TotalPrice ₺</p>
+            <p><strong>Status:</strong> @order.Status</p>
+            <p><strong>Date:</strong> @order.CreatedAt</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food</th>
+                        <th>Quantity</th>
+                        <th>Customization</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in order.Items)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Customization</td>
+                            <td>
+                                <a href="/Ratings/Create?orderId=@order.Id&foodId=@item.FoodId">Rate</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}

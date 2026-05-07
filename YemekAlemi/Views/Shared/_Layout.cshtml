@@ -4,44 +4,57 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YemekAlemi</title>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>@ViewData["Title"] - YemekAlemi</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a class="brand" href="/Home/Index">🍽 YemekAlemi</a>
 
-    <nav style="background:#2d6a4f; padding:10px;">
-        <a href="/" style="color:white; margin-right:10px;">YemekAlemi</a>
-        <a href="/Home/Index" style="color:white; margin-right:10px;">Home</a>
+            <a href="/Home/Index">Home</a>
 
-        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Caretaker"))
-        {
-            <a href="/Foods/Create" style="color:white; margin-right:10px;">Create Food</a>
-        }
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a href="/Ratings/MyCompletedOrders">My Orders</a>
+                <a href="/Cart/Index">Cart</a>
+            }
 
-        @if (User.Identity != null && User.Identity.IsAuthenticated)
-        {
-            <span style="color:white; margin-right:10px;">Hello @User.Identity.Name</span>
+            @if (User.IsInRole("Caretaker"))
+            {
+                <a href="/Foods/Create">Create Food</a>
+            }
 
-            <form method="post" action="/Identity/Account/Logout" style="display:inline;">
-                <button type="submit" style="background:none; border:none; color:white; cursor:pointer; margin-left:10px;">
-                    Logout
-                </button>
-            </form>
-        }
-        else
-        {
-            <a href="/Identity/Account/Login" style="color:white; margin-right:10px;">Login</a>
-            <a href="/Identity/Account/Register" style="color:white; margin-right:10px;">Register</a>
-        }
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="/AdminLogs/Index">System Logs</a>
+            }
+        </div>
+
+        <div class="nav-right">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <span class="hello-text">Hello @User.Identity.Name</span>
+
+                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            }
+            else
+            {
+                <a href="/Identity/Account/Login">Login</a>
+                <a href="/Identity/Account/Register">Register</a>
+            }
+        </div>
     </nav>
 
-    <div class="container" style="padding:20px;">
+    <main class="page-container">
         @RenderBody()
-    </div>
+    </main>
 
-    <footer
-        style="background:#222; color:white; text-align:center; padding:10px; position:fixed; bottom:0; width:100%;">
+    <footer>
         © 2026 YemekAlemi
     </footer>
 

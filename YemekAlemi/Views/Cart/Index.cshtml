@@ -1,0 +1,65 @@
+@model List<YemekAlemi.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h1>Your Cart</h1>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Your cart is empty.</p>
+    <a href="/Home/Index">Back to menus</a>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Menu</th>
+                <th>Base Price</th>
+                <th>Customization</th>
+                <th>Customization Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price ₺</td>
+                    <td>
+                        @if (string.IsNullOrEmpty(item.Customization))
+                        {
+                            <span>No customization</span>
+                        }
+                        else
+                        {
+                            <span>@item.Customization</span>
+                        }
+                    </td>
+                    <td>@item.CustomizationPrice ₺</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.TotalPrice ₺</td>
+                    <td>
+                        <a href="/Cart/Increase?foodId=@item.FoodId&customization=@item.Customization">+</a>
+                        <a href="/Cart/Decrease?foodId=@item.FoodId&customization=@item.Customization">-</a>
+                        <a href="/Cart/Remove?foodId=@item.FoodId&customization=@item.Customization">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Total Price: @Model.Sum(x => x.TotalPrice) ₺</h2>
+
+    <a href="/Home/Index">Continue Shopping</a>
+    <br />
+    <a href="/Cart/Clear">Clear Cart</a>
+    <br />
+    <a href="/Payment/Index">Proceed to Payment</a>
+}

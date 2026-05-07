@@ -1,35 +1,31 @@
 @model YemekAlemi.Models.Food
 
-@{
-    ViewData["Title"] = "Create Menu";
-}
-
-<h1>Create Menu Item</h1>
+<h2>Create Menu Item</h2>
 
 <form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+    <label>Name</label>
+    <input asp-for="Name" />
 
-    <div class="mb-3">
-        <label asp-for="Price" class="form-label"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
+    <label>Price</label>
+    <input asp-for="Price" />
 
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+    <label>Description</label>
+    <textarea asp-for="Description"></textarea>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <label>Restaurant Name</label>
+    <input asp-for="RestaurantName" placeholder="Example: Dominos" />
+
+    <label>Address</label>
+    <input asp-for="Address" placeholder="Example: Kızılay, Ankara" />
+
+    <label>Latitude</label>
+    <input asp-for="Latitude" placeholder="Example: 39.9208" />
+
+    <label>Longitude</label>
+    <input asp-for="Longitude" placeholder="Example: 32.8541" />
+
+    <label>Image URL</label>
+    <input asp-for="ImageUrl" placeholder="Example: https://images.unsplash.com/photo-1513104890138-7c749659a591" />
+
+    <button type="submit">Save</button>
 </form>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

@@ -1,0 +1,33 @@
+@model List<YemekAlemi.Models.CartItem>
+
+<h1>Payment</h1>
+
+<h3>Order Summary</h3>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @item.Name - @item.Quantity x (@(item.Price + item.CustomizationPrice)) ₺
+        </li>
+    }
+</ul>
+
+<h2>Total: @Model.Sum(x => x.TotalPrice) ₺</h2>
+
+<hr />
+
+<h3>Card Information</h3>
+
+<form asp-action="CompletePayment" method="post">
+    <label>Card Number</label>
+    <input name="cardNumber" placeholder="1234 5678 9012 3456" required />
+
+    <label>Expiry Date</label>
+    <input name="expiryDate" placeholder="12/28" required />
+
+    <label>CVV</label>
+    <input name="cvv" placeholder="123" required />
+
+    <button type="submit">Pay Now</button>
+</form>

@@ -1,12 +1,16 @@
 using YemekAlemi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using YemekAlemi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // MVC + Razor Pages
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSession();
+builder.Services.AddScoped<LogService>();
+builder.Services.AddScoped<EmailService>();
 
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -42,6 +46,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -66,6 +72,48 @@ using (var scope = app.Services.CreateScope())
         if (!await roleManager.RoleExistsAsync(role))
         {
             await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string adminEmail = "admin@test.com";
+    string password = "Admin123!";
+
+    // ROLE oluştur
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    // USER oluştur
+    var user = await userManager.FindByEmailAsync(adminEmail);
+
+    if (user == null)
+    {
+        user = new IdentityUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail
+        };
+
+        var result = await userManager.CreateAsync(user, password);
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+        else
+        {
+            foreach (var error in result.Errors)
+            {
+                Console.WriteLine(error.Description);
+            }
         }
     }
 }

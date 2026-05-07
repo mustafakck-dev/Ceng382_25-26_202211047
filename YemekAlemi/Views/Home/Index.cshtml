@@ -1,30 +1,136 @@
 ﻿@model List<YemekAlemi.Models.Food>
 
-<h2>Available Menus</h2>
+@{
+    ViewData["Title"] = "Available Menus";
+}
 
-@if (!Model.Any())
+<h1>Available Menus</h1>
+
+<div class="card location-card">
+    <h2>Find Nearby Restaurants</h2>
+
+    <form method="get" asp-controller="Home" asp-action="Index">
+        <label>Your Latitude</label>
+        <input id="userLat" type="number" step="any" name="userLat" value="@ViewBag.UserLat" placeholder="Example: 39.9208" />
+
+        <label>Your Longitude</label>
+        <input id="userLng" type="number" step="any" name="userLng" value="@ViewBag.UserLng" placeholder="Example: 32.8541" />
+
+        <label>Max Distance (km)</label>
+        <input type="number" step="any" name="maxDistanceKm" value="@ViewBag.MaxDistanceKm" placeholder="Example: 5" />
+
+        <button type="button" onclick="getMyLocation()">Use My Location</button>
+        <button type="submit">Filter Nearby Menus</button>
+    </form>
+
+    <a href="/Home/Index">Clear Filter</a>
+</div>
+
+@if (Model == null || !Model.Any())
 {
     <p>No menu items available yet.</p>
 }
 else
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Menu Name</th>
-                <th>Price</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Price ₺</td>
-                    <td>@item.Description</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="menu-grid">
+        @foreach (var item in Model)
+        {
+            <div class="menu-card">
+                <div class="menu-image">
+        <img src="@item.ImageUrl" alt="@item.Name" />
+        </div> 
+
+                <div class="menu-content">
+                    <h2>@item.Name</h2>
+
+                    <p class="restaurant">
+                        @(string.IsNullOrEmpty(item.RestaurantName) ? "Restaurant not specified" : item.RestaurantName)
+                    </p>
+
+                    <p class="address">
+                        @(string.IsNullOrEmpty(item.Address) ? "Address not specified" : item.Address)
+                    </p>
+
+                    <p>@item.Description</p>
+
+                    <div class="price">@item.Price ₺</div>
+
+                    <form asp-controller="Home" asp-action="AddToCart" method="post">
+                        <input type="hidden" name="id" value="@item.Id" />
+
+                        <select name="customization">
+                            <option value="">No customization (+0 ₺)</option>
+                            <option value="Extra Cheese">Extra Cheese (+20 ₺)</option>
+                            <option value="Extra Sauce">Extra Sauce (+10 ₺)</option>
+                            <option value="Large Size">Large Size (+30 ₺)</option>
+                        </select>
+
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
 }
+
+<div id="map" style="height:400px; width:100%; margin-top:30px; border-radius:18px;"></div>
+
+<script>
+    function getMyLocation() {
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by this browser.");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                document.getElementById("userLat").value = position.coords.latitude;
+                document.getElementById("userLng").value = position.coords.longitude;
+            },
+            function () {
+                alert("Location permission denied or location could not be retrieved.");
+            }
+        );
+    }
+
+    function initMap() {
+        const center = {
+            lat: 39.9208,
+            lng: 32.8541
+        };
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: center
+        });
+
+        @foreach (var item in Model ?? new List<YemekAlemi.Models.Food>())
+        {
+            if (item.Latitude != 0 && item.Longitude != 0)
+            {
+                <text>
+                    const marker@item.Id = new google.maps.Marker({
+                        position: {
+                            lat: @item.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                            lng: @item.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                        },
+                        map: map,
+                        title: "@item.RestaurantName"
+                    });
+
+                    const info@item.Id = new google.maps.InfoWindow({
+                        content: "<strong>@item.RestaurantName</strong><br />@item.Name<br />@item.Address"
+                    });
+
+                    marker@item.Id.addListener("click", function () {
+                        info@item.Id.open(map, marker@item.Id);
+                    });
+                </text>
+            }
+        }
+    }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChWqNAzis2BGu7V4Uh1dNW-cjILkMPw1c&callback=initMap">
+</script>

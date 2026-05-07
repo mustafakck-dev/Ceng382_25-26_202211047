@@ -190,6 +190,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/AdminLogs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Mb2dzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Cart/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Foods/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -200,6 +208,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Payment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Payment/Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudFxTdWNjZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Ratings/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF0aW5nc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Ratings/MyCompletedOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF0aW5nc1xNeUNvbXBsZXRlZE9yZGVycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Shared/Error.cshtml]

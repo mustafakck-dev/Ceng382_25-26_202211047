@@ -1,0 +1,32 @@
+@model List<YemekAlemi.Models.AppLog>
+
+<h1>System Logs</h1>
+
+@if (!Model.Any())
+{
+    <p>No logs found.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Event Type</th>
+                <th>Message</th>
+                <th>User Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in Model)
+            {
+                <tr>
+                    <td>@log.CreatedAt</td>
+                    <td>@log.EventType</td>
+                    <td>@log.Message</td>
+                    <td>@log.UserEmail</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -12,5 +12,10 @@ namespace YemekAlemi.Data
         }
 
         public DbSet<Food> Foods { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<AppLog> AppLogs { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<EmailLog> EmailLogs { get; set; }
     }
 }
