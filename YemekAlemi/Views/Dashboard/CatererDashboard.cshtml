@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Caterer Dashboard";
+}
+
+<h1>Caterer Dashboard</h1>
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card">
+        <h2>Total Menus</h2>
+        <p>@ViewBag.TotalMenus</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h2>Total Ratings</h2>
+        <p>@ViewBag.TotalRatings</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h2>Average Rating</h2>
+        <p>@ViewBag.AverageRating</p>
+    </div>
+
+</div>

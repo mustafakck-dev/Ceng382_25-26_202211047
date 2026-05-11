@@ -1,0 +1,103 @@
+@model List<YemekAlemi.Models.Food>
+
+@{
+    ViewData["Title"] = ViewBag.RestaurantName + " Menus";
+}
+
+<div class="section-header">
+    <h1>@ViewBag.RestaurantName</h1>
+    <p>Available meals from this restaurant.</p>
+</div>
+
+<a class="btn-secondary" href="/Home/Index">
+    ← Back to Restaurants
+</a>
+
+<br />
+<br />
+
+@if (Model == null || !Model.Any())
+{
+    <div class="empty-box">
+        <h2>No menu items found</h2>
+        <p>This restaurant does not have any menu items yet.</p>
+    </div>
+}
+else
+{
+    <div class="menu-grid">
+
+        @foreach (var item in Model)
+        {
+            <div class="menu-card">
+
+                <div class="menu-image">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.Name" />
+                    }
+                    else
+                    {
+                        <span>🍽️</span>
+                    }
+                </div>
+
+                <div class="menu-content">
+
+                    <h2>@item.Name</h2>
+
+                    <p class="restaurant">
+                        @item.RestaurantName
+                    </p>
+
+                    <p class="address">
+                        @item.Address
+                    </p>
+
+                    <p>@item.Description</p>
+
+                    @{
+                        var ratings = ViewBag.MenuRatings as Dictionary<int, double>;
+                        var avgRating = ratings != null && ratings.ContainsKey(item.Id)
+                            ? ratings[item.Id]
+                            : 0;
+                    }
+
+                    <div class="rating-badge">
+                        ⭐ @(avgRating > 0 ? avgRating.ToString() + " / 5" : "No rating yet")
+                    </div>
+
+                    <div class="price">
+                        @item.Price ₺
+                    </div>
+
+                    <form asp-controller="Home" asp-action="AddToCart" method="post">
+
+                        <input type="hidden" name="id" value="@item.Id" />
+
+                        <select name="customizationOptionId">
+                            <option value="0">No customization (+0 ₺)</option>
+
+                            @if (item.CustomizationOptions != null && item.CustomizationOptions.Any())
+                            {
+                                @foreach (var option in item.CustomizationOptions)
+                                {
+                                    <option value="@option.Id">
+                                        @option.Name (+@option.ExtraPrice ₺)
+                                    </option>
+                                }
+                            }
+                        </select>
+
+                        <button type="submit">
+                            Add to Cart
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        }
+
+    </div>
+}

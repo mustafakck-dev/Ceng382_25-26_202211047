@@ -1,65 +1,77 @@
 @model List<YemekAlemi.Models.CartItem>
 
 @{
-    ViewData["Title"] = "Cart";
+    ViewData["Title"] = "Your Cart";
 }
 
-<h1>Your Cart</h1>
+<div class="section-header">
+    <h1>Your Cart</h1>
+    <p>Review your selected meals before completing your order.</p>
+</div>
 
 @if (Model == null || !Model.Any())
 {
-    <p>Your cart is empty.</p>
-    <a href="/Home/Index">Back to menus</a>
+    <div class="empty-box">
+        <h2>Your cart is empty</h2>
+        <p>Add some delicious meals from the menu.</p>
+        <a class="btn-main" href="/Home/Index">Back to Menus</a>
+    </div>
 }
 else
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Menu</th>
-                <th>Base Price</th>
-                <th>Customization</th>
-                <th>Customization Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="cart-card">
+        <table>
+            <thead>
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Price ₺</td>
-                    <td>
-                        @if (string.IsNullOrEmpty(item.Customization))
-                        {
-                            <span>No customization</span>
-                        }
-                        else
-                        {
-                            <span>@item.Customization</span>
-                        }
-                    </td>
-                    <td>@item.CustomizationPrice ₺</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.TotalPrice ₺</td>
-                    <td>
-                        <a href="/Cart/Increase?foodId=@item.FoodId&customization=@item.Customization">+</a>
-                        <a href="/Cart/Decrease?foodId=@item.FoodId&customization=@item.Customization">-</a>
-                        <a href="/Cart/Remove?foodId=@item.FoodId&customization=@item.Customization">Remove</a>
-                    </td>
+                    <th>Menu</th>
+                    <th>Base Price</th>
+                    <th>Customization</th>
+                    <th>Customization Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
 
-    <h2>Total Price: @Model.Sum(x => x.TotalPrice) ₺</h2>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Price ₺</td>
+                        <td>@item.Customization</td>
+                        <td>@item.CustomizationPrice ₺</td>
+                        <td>@item.Quantity</td>
+                        <td>@((item.Price + item.CustomizationPrice) * item.Quantity) ₺</td>
+                        <td>
+                            <a class="mini-link"
+                                   href="/Cart/Increase?foodId=@item.FoodId&customization=@Uri.EscapeDataString(item.Customization ?? "No customization")">
+                                +
+                            </a>
 
-    <a href="/Home/Index">Continue Shopping</a>
-    <br />
-    <a href="/Cart/Clear">Clear Cart</a>
-    <br />
-    <a href="/Payment/Index">Proceed to Payment</a>
+                            <a class="mini-link"
+                                   href="/Cart/Decrease?foodId=@item.FoodId&customization=@Uri.EscapeDataString(item.Customization ?? "No customization")">
+                                -
+                            </a>
+
+                            <a class="danger-link"
+                                   href="/Cart/Remove?foodId=@item.FoodId&customization=@Uri.EscapeDataString(item.Customization ?? "No customization")">
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <h2>Total Price: @Model.Sum(x => (x.Price + x.CustomizationPrice) * x.Quantity) ₺</h2>
+
+            <div class="cart-actions">
+                <a class="btn-secondary" href="/Home/Index">Continue Shopping</a>
+                <a class="btn-danger" href="/Cart/Clear">Clear Cart</a>
+                <a class="btn-main" href="/Payment/Index">Proceed to Payment</a>
+            </div>
+        </div>
+    </div>
 }

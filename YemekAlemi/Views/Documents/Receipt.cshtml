@@ -1,0 +1,46 @@
+@model YemekAlemi.Models.Order
+
+@{
+    ViewData["Title"] = "Receipt";
+}
+
+<div class="document-card">
+    <h1>YemekAlemi Receipt</h1>
+
+    <p><strong>Order ID:</strong> @Model.Id</p>
+    <p><strong>User ID:</strong> @Model.UserId</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+    <p><strong>Purchase Time:</strong> @Model.CreatedAt</p>
+
+    <hr />
+
+    <h2>Ordered Items</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Customization</th>
+                <th>Price</th>
+                <th>Customization Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Customization</td>
+                    <td>@item.Price ₺</td>
+                    <td>@item.CustomizationPrice ₺</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Total Price: @Model.TotalPrice ₺</h2>
+
+    <button onclick="window.print()">Print / Save as PDF</button>
+</div>

@@ -100,15 +100,53 @@ namespace YemekAlemi.Controllers
                 emailBody,
                 userId
             );
+            var restaurantNames = order.Items
+    .Select(i =>
+        _context.Foods
+            .Where(f => f.Id == i.FoodId)
+            .Select(f => f.RestaurantName)
+            .FirstOrDefault()
+    )
+    .Where(r => !string.IsNullOrEmpty(r))
+    .Distinct()
+    .ToList();
+
+            foreach (var restaurantName in restaurantNames)
+            {
+                var catererEmail = $"{restaurantName.Replace(" ", "").ToLower()}@yemekalemi.com";
+
+                var catererBody =
+                    $"A new order has been placed for your restaurant.\n\n" +
+                    $"Restaurant: {restaurantName}\n" +
+                    $"Order ID: {order.Id}\n" +
+                    $"Customer: {User.Identity?.Name}\n" +
+                    $"Total Price: {order.TotalPrice} ₺\n" +
+                    $"Order Time: {order.CreatedAt}\n\n" +
+                    $"Items:\n";
+
+                foreach (var item in order.Items)
+                {
+                    catererBody +=
+                        $"- {item.Name} x {item.Quantity}, Customization: {item.Customization}, Price: {item.Price} ₺\n";
+                }
+
+                _emailService.SendEmail(
+                    catererEmail,
+                    $"New Order Received - Order #{order.Id}",
+                    catererBody,
+                    userId
+                );
+            }
 
 
             HttpContext.Session.Remove("Cart");
 
-            return RedirectToAction("Success");
+            return RedirectToAction("Success", new { orderId = order.Id });
         }
 
-        public IActionResult Success()
+        public IActionResult Success(int orderId)
         {
+            ViewBag.OrderId = orderId;
             return View();
         }
     }

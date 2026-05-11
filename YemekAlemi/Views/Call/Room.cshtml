@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Live Call Room";
+}
+
+<div class="call-room">
+
+    <div class="call-header">
+        <h1>Live Call Room</h1>
+        <p>Live communication between customer and caterer after purchase.</p>
+    </div>
+
+    <div class="call-layout">
+
+        <div class="call-main">
+            <div class="call-screen">
+                <div class="call-avatar">
+                    📞
+                </div>
+
+                <h2>Call Active</h2>
+
+                <p>
+                    Order #@ViewBag.OrderId communication room is ready.
+                </p>
+
+                <div class="call-timer" id="callTimer">
+                    00:00
+                </div>
+
+                <button class="btn-danger" onclick="endCall()">
+                    End Call
+                </button>
+            </div>
+        </div>
+
+        <div class="call-info">
+            <h2>Order Information</h2>
+
+            <p><strong>Order ID:</strong> @ViewBag.OrderId</p>
+            <p><strong>Restaurant:</strong> @ViewBag.RestaurantName</p>
+            <p><strong>Status:</strong> @ViewBag.Status</p>
+            <p><strong>Total:</strong> @ViewBag.TotalPrice ₺</p>
+            <p><strong>Created At:</strong> @ViewBag.CreatedAt</p>
+
+            <hr />
+
+            <h3>Participants</h3>
+            <p>👤 Customer</p>
+            <p>🍽 Caterer</p>
+
+            <hr />
+
+            <p class="call-note">
+                This page simulates a live call system for post-purchase communication.
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let seconds = 0;
+
+    setInterval(function () {
+        seconds++;
+
+        let min = Math.floor(seconds / 60);
+        let sec = seconds % 60;
+
+        document.getElementById("callTimer").innerText =
+            String(min).padStart(2, "0") + ":" + String(sec).padStart(2, "0");
+    }, 1000);
+
+    function endCall() {
+        alert("Call ended.");
+        window.location.href = "/Dashboard/Index";
+    }
+</script>

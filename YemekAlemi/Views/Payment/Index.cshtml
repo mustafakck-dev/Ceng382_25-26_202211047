@@ -1,33 +1,71 @@
 @model List<YemekAlemi.Models.CartItem>
 
-<h1>Payment</h1>
+@{
+    ViewData["Title"] = "Payment";
+}
 
-<h3>Order Summary</h3>
+<div class="section-header">
+    <h1>Payment</h1>
+    <p>This is a payment simulation. Do not enter a real card number.</p>
+</div>
 
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>
-            @item.Name - @item.Quantity x (@(item.Price + item.CustomizationPrice)) ₺
-        </li>
-    }
-</ul>
+@if (Model == null || !Model.Any())
+{
+    <div class="empty-box">
+        <h2>Your cart is empty</h2>
+        <p>Please add items before payment.</p>
+        <a class="btn-main" href="/Home/Index">Back to Menus</a>
+    </div>
+}
+else
+{
+    <div class="payment-layout">
+        <div class="payment-card">
+            <h2>Card Information</h2>
 
-<h2>Total: @Model.Sum(x => x.TotalPrice) ₺</h2>
+            <form asp-controller="Payment" asp-action="CompletePayment" method="post">
+                <label>Card Holder Name</label>
+                <input type="text" name="cardHolder" placeholder="Example: Mustafa Kucuk" required />
 
-<hr />
+                <label>Card Number</label>
+                <input type="text" name="cardNumber" placeholder="1111 2222 3333 4444" required />
 
-<h3>Card Information</h3>
+                <div class="payment-row">
+                    <div>
+                        <label>Expiry Date</label>
+                        <input type="text" name="expiryDate" placeholder="12/28" required />
+                    </div>
 
-<form asp-action="CompletePayment" method="post">
-    <label>Card Number</label>
-    <input name="cardNumber" placeholder="1234 5678 9012 3456" required />
+                    <div>
+                        <label>CVV</label>
+                        <input type="text" name="cvv" placeholder="123" required />
+                    </div>
+                </div>
 
-    <label>Expiry Date</label>
-    <input name="expiryDate" placeholder="12/28" required />
+                <button type="submit">Simulate Payment</button>
+            </form>
+        </div>
 
-    <label>CVV</label>
-    <input name="cvv" placeholder="123" required />
+        <div class="payment-card">
+            <h2>Order Summary</h2>
 
-    <button type="submit">Pay Now</button>
-</form>
+            @foreach (var item in Model)
+            {
+                <div class="summary-item">
+                    <div>
+                        <strong>@item.Name</strong>
+                        <p>@item.Customization</p>
+                    </div>
+
+                    <span>
+                        @((item.Price + item.CustomizationPrice) * item.Quantity) ₺
+                    </span>
+                </div>
+            }
+
+            <hr />
+
+            <h2>Total: @Model.Sum(x => (x.Price + x.CustomizationPrice) * x.Quantity) ₺</h2>
+        </div>
+    </div>
+}

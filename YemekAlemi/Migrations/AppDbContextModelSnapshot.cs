@@ -254,6 +254,31 @@ namespace YemekAlemi.Migrations
                     b.ToTable("AppLogs");
                 });
 
+            modelBuilder.Entity("YemekAlemi.Models.CustomizationOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("ExtraPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("CustomizationOptions");
+                });
+
             modelBuilder.Entity("YemekAlemi.Models.EmailLog", b =>
                 {
                     b.Property<int>("Id")
@@ -473,6 +498,17 @@ namespace YemekAlemi.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("YemekAlemi.Models.CustomizationOption", b =>
+                {
+                    b.HasOne("YemekAlemi.Models.Food", "Food")
+                        .WithMany("CustomizationOptions")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Food");
+                });
+
             modelBuilder.Entity("YemekAlemi.Models.OrderItem", b =>
                 {
                     b.HasOne("YemekAlemi.Models.Order", "Order")
@@ -482,6 +518,11 @@ namespace YemekAlemi.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("YemekAlemi.Models.Food", b =>
+                {
+                    b.Navigation("CustomizationOptions");
                 });
 
             modelBuilder.Entity("YemekAlemi.Models.Order", b =>

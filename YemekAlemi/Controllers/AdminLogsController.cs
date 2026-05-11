@@ -14,13 +14,38 @@ namespace YemekAlemi.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? search, string? eventType, int page = 1)
         {
-            var logs = _context.AppLogs
+            int pageSize = 5;
+
+            var logs = _context.AppLogs.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                logs = logs.Where(x =>
+                    x.Message.Contains(search) ||
+                    (x.UserEmail != null && x.UserEmail.Contains(search)));
+            }
+
+            if (!string.IsNullOrEmpty(eventType))
+            {
+                logs = logs.Where(x => x.EventType == eventType);
+            }
+
+            int totalLogs = logs.Count();
+
+            var pagedLogs = logs
                 .OrderByDescending(x => x.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
 
-            return View(logs);
+            ViewBag.Search = search;
+            ViewBag.EventType = eventType;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalLogs / (double)pageSize);
+
+            return View(pagedLogs);
         }
     }
 }

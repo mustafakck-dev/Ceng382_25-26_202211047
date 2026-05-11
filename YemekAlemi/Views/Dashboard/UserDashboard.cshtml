@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "User Dashboard";
+}
+
+<h1>User Dashboard</h1>
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card">
+        <h2>Total Orders</h2>
+        <p>@ViewBag.TotalOrders</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h2>Completed Orders</h2>
+        <p>@ViewBag.CompletedOrders</p>
+    </div>
+
+</div>
+<div class="card" style="margin-top:40px;">
+    <h2>Recent Activity</h2>
+
+    @if (ViewBag.RecentLogs != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Event</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var log in ViewBag.RecentLogs)
+                {
+                    <tr>
+                        <td>@log.CreatedAt</td>
+                        <td>@log.EventType</td>
+                        <td>@log.Message</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

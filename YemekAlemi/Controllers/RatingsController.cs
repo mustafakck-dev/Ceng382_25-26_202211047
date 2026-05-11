@@ -8,7 +8,7 @@ using YemekAlemi.Services;
 
 namespace YemekAlemi.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class RatingsController : Controller
     {
         private readonly AppDbContext _context;
@@ -20,17 +20,38 @@ namespace YemekAlemi.Controllers
             _logService = logService;
         }
 
-        public IActionResult MyCompletedOrders()
+        public IActionResult MyCompletedOrders(string? search, int page = 1)
         {
+            int pageSize = 5;
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var orders = _context.Orders
                 .Include(o => o.Items)
                 .Where(o => o.UserId == userId && o.Status == "Completed")
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(o =>
+                    o.Id.ToString().Contains(search) ||
+                    o.TotalPrice.ToString().Contains(search) ||
+                    o.Items.Any(i => i.Name.Contains(search)));
+            }
+
+            int totalOrders = orders.Count();
+
+            var pagedOrders = orders
                 .OrderByDescending(o => o.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
 
-            return View(orders);
+            ViewBag.Search = search;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalOrders / (double)pageSize);
+
+            return View(pagedOrders);
         }
 
         public IActionResult Create(int orderId, int foodId)

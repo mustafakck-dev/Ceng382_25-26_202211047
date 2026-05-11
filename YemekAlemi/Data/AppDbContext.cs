@@ -17,5 +17,7 @@ namespace YemekAlemi.Data
         public DbSet<AppLog> AppLogs { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<EmailLog> EmailLogs { get; set; }
+        public DbSet<CustomizationOption> CustomizationOptions { get; set; }
+
     }
 }

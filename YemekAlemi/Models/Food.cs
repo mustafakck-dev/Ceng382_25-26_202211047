@@ -23,5 +23,7 @@ namespace YemekAlemi.Models
 
         public double Longitude { get; set; }
         public string? ImageUrl { get; set; }
+        public List<CustomizationOption> CustomizationOptions { get; set; }
+    = new();
     }
 }

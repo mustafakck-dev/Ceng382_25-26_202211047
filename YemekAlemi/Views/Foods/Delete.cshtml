@@ -1,0 +1,29 @@
+@model YemekAlemi.Models.Food
+
+@{
+    ViewData["Title"] = "Delete Menu";
+}
+
+<div class="auth-card">
+
+    <h1>Delete Menu</h1>
+
+    <p>
+        Are you sure you want to delete:
+    </p>
+
+    <h2>@Model.Name</h2>
+
+    <img src="@Model.ImageUrl" style="width:100%;border-radius:18px;margin:20px 0;" />
+
+    <form asp-action="DeleteConfirmed" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn-danger">
+            Delete Permanently
+        </button>
+
+    </form>
+
+</div>

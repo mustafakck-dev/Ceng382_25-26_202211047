@@ -1,0 +1,101 @@
+@model List<YemekAlemi.Models.Food>
+
+@{
+    ViewData["Title"] = "Manage Menus";
+}
+
+<div class="section-header">
+    <h1>Manage Menus</h1>
+    <p>Create, edit, delete menu items and manage customization options.</p>
+</div>
+
+<a class="btn-main" href="/Foods/Create">
+    Create New Menu
+</a>
+
+<br />
+<br />
+
+@if (Model == null || !Model.Any())
+{
+    <div class="empty-box">
+        <h2>No menu items found</h2>
+    </div>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Restaurant</th>
+                <th>Price</th>
+                <th>Customizations</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" style="width:90px;height:70px;object-fit:cover;border-radius:12px;" />
+                        }
+                        else
+                        {
+                            <span>🍽️</span>
+                        }
+                    </td>
+
+                    <td>@item.Name</td>
+
+                    <td>@item.RestaurantName</td>
+
+                    <td>@item.Price ₺</td>
+
+                    <td>
+                        @if (item.CustomizationOptions != null && item.CustomizationOptions.Any())
+                        {
+                            <ul class="customization-list">
+                                @foreach (var option in item.CustomizationOptions)
+                                {
+                                    <li>
+                                        @option.Name (+@option.ExtraPrice ₺)
+
+                                        <a class="delete-customization" href="/CustomizationOptions/Delete/@option.Id">
+                                            Delete
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>No customizations</span>
+                        }
+
+                        <br />
+
+                        <a class="add-customization-btn" href="/CustomizationOptions/Create?foodId=@item.Id">
+                            + Add Customization
+                        </a>
+                    </td>
+
+                    <td>
+                        <a class="mini-link" href="/Foods/Edit/@item.Id">
+                            Edit
+                        </a>
+
+                        <a class="danger-link" href="/Foods/Delete/@item.Id">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

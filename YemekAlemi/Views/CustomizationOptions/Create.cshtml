@@ -1,0 +1,25 @@
+@model YemekAlemi.Models.CustomizationOption
+
+@{
+    ViewData["Title"] = "Add Customization Option";
+}
+
+<div class="auth-card">
+    <h1>Add Customization</h1>
+
+    <p class="auth-subtitle">
+        Menu item: <strong>@ViewBag.FoodName</strong>
+    </p>
+
+    <form asp-action="Create" method="post">
+        <input type="hidden" asp-for="FoodId" value="@ViewBag.FoodId" />
+
+        <label>Option Name</label>
+        <input asp-for="Name" placeholder="Example: Extra Cheese" />
+
+        <label>Extra Price</label>
+        <input asp-for="ExtraPrice" placeholder="Example: 20" />
+
+        <button type="submit">Save Customization</button>
+    </form>
+</div>

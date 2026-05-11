@@ -1,0 +1,44 @@
+@model YemekAlemi.Models.Order
+
+@{
+    ViewData["Title"] = "Agreement";
+}
+
+<div class="document-card">
+    <h1>YemekAlemi Order Agreement</h1>
+
+    <p>
+        This agreement is generated dynamically for Order #@Model.Id.
+        It confirms that the customer has completed a simulated payment
+        and the catering order has been recorded in the system.
+    </p>
+
+    <h2>Order Information</h2>
+
+    <p><strong>Order ID:</strong> @Model.Id</p>
+    <p><strong>Customer/User ID:</strong> @Model.UserId</p>
+    <p><strong>Order Status:</strong> @Model.Status</p>
+    <p><strong>Agreement Date:</strong> @DateTime.Now</p>
+
+    <h2>Items Included in the Agreement</h2>
+
+    <ul>
+        @foreach (var item in Model.Items)
+        {
+            <li>
+                @item.Quantity x @item.Name
+                — Customization: @item.Customization
+                — Price: @(item.Price + item.CustomizationPrice) ₺
+            </li>
+        }
+    </ul>
+
+    <h2>Total Agreement Amount: @Model.TotalPrice ₺</h2>
+
+    <p>
+        This document is not a static file. It is generated using order-specific
+        data stored in the database.
+    </p>
+
+    <button onclick="window.print()">Print / Save as PDF</button>
+</div>

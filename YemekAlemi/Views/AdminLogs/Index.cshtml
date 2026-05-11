@@ -1,6 +1,34 @@
 @model List<YemekAlemi.Models.AppLog>
 
+@{
+    ViewData["Title"] = "System Logs";
+}
+
 <h1>System Logs</h1>
+
+<div class="card">
+    <form method="get" asp-controller="AdminLogs" asp-action="Index">
+        <label>Search</label>
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="Search message or email..." />
+
+        <label>Event Type</label>
+        <select name="eventType">
+            <option value="">All</option>
+            <option value="Order" selected="@(ViewBag.EventType == "Order")">Order</option>
+            <option value="Payment" selected="@(ViewBag.EventType == "Payment")">Payment</option>
+            <option value="Rating" selected="@(ViewBag.EventType == "Rating")">Rating</option>
+            <option value="Email" selected="@(ViewBag.EventType == "Email")">Email</option>
+            <option value="Document" selected="@(ViewBag.EventType == "Document")">Document</option>
+            <option value="Call" selected="@(ViewBag.EventType == "Call")">Call</option>
+            <option value="Menu" selected="@(ViewBag.EventType == "Menu")">Menu</option>
+            <option value="Security" selected="@(ViewBag.EventType == "Security")">Security</option>
+            <option value="Cart" selected="@(ViewBag.EventType == "Cart")">Cart</option>
+        </select>
+
+        <button type="submit">Filter Logs</button>
+        <a class="btn-main" href="/AdminLogs/Index">Clear</a>
+    </form>
+</div>
 
 @if (!Model.Any())
 {
@@ -22,7 +50,70 @@ else
             {
                 <tr>
                     <td>@log.CreatedAt</td>
-                    <td>@log.EventType</td>
+                    <td>
+
+                        @if (log.EventType == "Order")
+                        {
+                            <span class="badge badge-order">
+                                Order
+                            </span>
+                        }
+                        else if (log.EventType == "Payment")
+                        {
+                            <span class="badge badge-payment">
+                                Payment
+                            </span>
+                        }
+                        else if (log.EventType == "Rating")
+                        {
+                            <span class="badge badge-rating">
+                                Rating
+                            </span>
+                        }
+                        else if (log.EventType == "Email")
+                        {
+                            <span class="badge badge-email">
+                                Email
+                            </span>
+                        }
+                        else if (log.EventType == "Document")
+                        {
+                            <span class="badge badge-document">
+                                Document
+                            </span>
+                        }
+                        else if (log.EventType == "Call")
+                        {
+                            <span class="badge badge-call">
+                                Call
+                            </span>
+                        }
+                        else if (log.EventType == "Menu")
+                        {
+                            <span class="badge badge-menu">
+                                Menu
+                            </span>
+                        }
+                        else if (log.EventType == "Security")
+                        {
+                            <span class="badge badge-security">
+                                Security
+                            </span>
+                        }
+                        else if (log.EventType == "Cart")
+                        {
+                            <span class="badge badge-cart">
+                                Cart
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge">
+                                @log.EventType
+                            </span>
+                        }
+
+                    </td>
                     <td>@log.Message</td>
                     <td>@log.UserEmail</td>
                 </tr>
@@ -30,3 +121,19 @@ else
         </tbody>
     </table>
 }
+
+<div class="pagination">
+    @if (ViewBag.CurrentPage > 1)
+    {
+        <a
+        href="/AdminLogs/Index?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search&eventType=@ViewBag.EventType">Previous</a>
+    }
+
+    <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages</span>
+
+    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+    {
+        <a
+        href="/AdminLogs/Index?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search&eventType=@ViewBag.EventType">Next</a>
+    }
+</div>

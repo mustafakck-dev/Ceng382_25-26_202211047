@@ -4,131 +4,253 @@
     ViewData["Title"] = "Available Menus";
 }
 
-<h1>Available Menus</h1>
+<div class="hero-section">
+    <h1>Discover Delicious Meals Near You</h1>
+    <p>Browse nearby caterers, add meals to your cart, and complete your order easily.</p>
+</div>
+@if (ViewBag.TopRatedFoods != null)
+{
+    <div class="top-rated-section">
+
+        <h2>🔥 Top Rated Meals</h2>
+
+        <div class="top-rated-grid">
+
+            @foreach (var item in ViewBag.TopRatedFoods)
+            {
+                <div class="top-rated-card">
+
+                    <img src="@item.Food.ImageUrl" alt="@item.Food.Name" />
+
+                    <h3>@item.Food.Name</h3>
+
+                    <p>@item.Food.RestaurantName</p>
+
+                    <div class="top-rating">
+                        ⭐ @Math.Round(item.AverageRating, 1) / 5
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+}
 
 <div class="card location-card">
+
     <h2>Find Nearby Restaurants</h2>
 
     <form method="get" asp-controller="Home" asp-action="Index">
+
+       
+
         <label>Your Latitude</label>
-        <input id="userLat" type="number" step="any" name="userLat" value="@ViewBag.UserLat" placeholder="Example: 39.9208" />
+        <input id="userLat" type="text" name="userLat" value="@ViewBag.UserLat" placeholder="Example: 39.9208" />
 
         <label>Your Longitude</label>
-        <input id="userLng" type="number" step="any" name="userLng" value="@ViewBag.UserLng" placeholder="Example: 32.8541" />
+        <input id="userLng" type="text" name="userLng" value="@ViewBag.UserLng" placeholder="Example: 32.8541" />
 
         <label>Max Distance (km)</label>
-        <input type="number" step="any" name="maxDistanceKm" value="@ViewBag.MaxDistanceKm" placeholder="Example: 5" />
+        <input type="text" name="maxDistanceKm" value="@ViewBag.MaxDistanceKm" placeholder="Example: 5" />
 
-        <button type="button" onclick="getMyLocation()">Use My Location</button>
-        <button type="submit">Filter Nearby Menus</button>
+        <button type="button" onclick="getMyLocation()">
+            Use My Location
+        </button>
+
+        <button type="submit">
+            Filter Nearby Menus
+        </button>
+
     </form>
 
     <a href="/Home/Index">Clear Filter</a>
+
+</div>
+
+<div id="map" style="height:400px;
+    width:100%;
+    margin-top:30px;
+    margin-bottom:30px;
+    border-radius:18px;">
+</div>
+
+<div class="card">
+    <h2> Restourants</h2>
+
+    <form method="get" asp-controller="Home" asp-action="Index">
+        <label>Search Restaurant</label>
+        <input type="text" name="search" value="@ViewBag.Search" />
+
+        <button type="submit">Search</button>
+        <a class="btn-main" href="/Home/Index">Clear</a>
+    </form>
 </div>
 
 @if (Model == null || !Model.Any())
 {
-    <p>No menu items available yet.</p>
+    <div class="empty-box">
+        <h2>No menu items found</h2>
+        <p>Try increasing the distance filter or clear the filter to see all available meals.</p>
+
+        <a class="btn-main" href="/Home/Index">
+            Clear Filter
+        </a>
+    </div>
 }
 else
 {
     <div class="menu-grid">
+
         @foreach (var item in Model)
         {
             <div class="menu-card">
+
                 <div class="menu-image">
-        <img src="@item.ImageUrl" alt="@item.Name" />
-        </div> 
+
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.Name" />
+                    }
+                    else
+                    {
+                        <span>🍕</span>
+                    }
+
+                </div>
 
                 <div class="menu-content">
-                    <h2>@item.Name</h2>
+
+                    <h2>@item.RestaurantName</h2>
 
                     <p class="restaurant">
-                        @(string.IsNullOrEmpty(item.RestaurantName) ? "Restaurant not specified" : item.RestaurantName)
+                        @(string.IsNullOrEmpty(item.RestaurantName)
+                            ? "Restaurant not specified"
+                            : item.RestaurantName)
                     </p>
 
                     <p class="address">
-                        @(string.IsNullOrEmpty(item.Address) ? "Address not specified" : item.Address)
+                        @(string.IsNullOrEmpty(item.Address)
+                            ? "Address not specified"
+                            : item.Address)
                     </p>
 
-                    <p>@item.Description</p>
+                    <p>Click to view all menus from this restaurant.</p>
+                    @{
+                        var ratings = ViewBag.MenuRatings as Dictionary<int, double>;
+                        var avgRating = ratings != null && ratings.ContainsKey(item.Id)
+                            ? ratings[item.Id]
+                            : 0;
+                    }
 
-                    <div class="price">@item.Price ₺</div>
+                    
+                    
 
-                    <form asp-controller="Home" asp-action="AddToCart" method="post">
-                        <input type="hidden" name="id" value="@item.Id" />
-
-                        <select name="customization">
-                            <option value="">No customization (+0 ₺)</option>
-                            <option value="Extra Cheese">Extra Cheese (+20 ₺)</option>
-                            <option value="Extra Sauce">Extra Sauce (+10 ₺)</option>
-                            <option value="Large Size">Large Size (+30 ₺)</option>
-                        </select>
-
-                        <button type="submit">Add to Cart</button>
-                    </form>
+                    <a class="btn-main" href="/Home/RestaurantMenus?restaurantName=@item.RestaurantName">
+                        View Restaurant Menu
+                    </a>
                 </div>
             </div>
         }
+
     </div>
 }
 
-<div id="map" style="height:400px; width:100%; margin-top:30px; border-radius:18px;"></div>
-
 <script>
+
     function getMyLocation() {
+
+        const latInput = document.getElementById("userLat");
+        const lngInput = document.getElementById("userLng");
+
         if (!navigator.geolocation) {
-            alert("Geolocation is not supported by this browser.");
+
+            alert("Your browser does not support location.");
             return;
         }
 
+        latInput.value = "Getting...";
+        lngInput.value = "Getting...";
+
         navigator.geolocation.getCurrentPosition(
+
             function (position) {
-                document.getElementById("userLat").value = position.coords.latitude;
-                document.getElementById("userLng").value = position.coords.longitude;
+
+                latInput.value =
+                    position.coords.latitude.toFixed(6);
+
+                lngInput.value =
+                    position.coords.longitude.toFixed(6);
             },
+
             function () {
-                alert("Location permission denied or location could not be retrieved.");
+
+                latInput.value = "";
+                lngInput.value = "";
+
+                alert("Could not get your location.");
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
             }
         );
     }
 
-    function initMap() {
+    window.initMap = function () {
+
         const center = {
             lat: 39.9208,
             lng: 32.8541
         };
 
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 12,
-            center: center
-        });
+        const map =
+            new google.maps.Map(
+                document.getElementById("map"),
+                {
+                    zoom: 12,
+                    center: center
+                }
+            );
 
         @foreach (var item in Model ?? new List<YemekAlemi.Models.Food>())
-        {
-            if (item.Latitude != 0 && item.Longitude != 0)
             {
-                <text>
-                    const marker@item.Id = new google.maps.Marker({
-                        position: {
-                            lat: @item.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                if (item.Latitude != 0 && item.Longitude != 0)
+                {
+                    <text>
+
+                            const marker@(item.Id) = new google.maps.Marker({
+                                position: {
+                                lat: @item.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture),
                             lng: @item.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)
-                        },
-                        map: map,
-                        title: "@item.RestaurantName"
-                    });
+                                                                                                                                                                                                                                            },
+                            map: map,
+                            title: "@item.RestaurantName"
+                                                                                                                                                                                                                                        });
 
-                    const info@item.Id = new google.maps.InfoWindow({
-                        content: "<strong>@item.RestaurantName</strong><br />@item.Name<br />@item.Address"
-                    });
+                            const info@(item.Id) = new google.maps.InfoWindow({
+                                content: `
+                            <div style="min-width:200px">
+                                    <strong>@item.RestaurantName</strong><br />
+                                                                                                                                                                                                                                                                                                                            @item.Name<br />
+                                                                                                                                                                                                                                                                                                                            @item.Address<br />
+                                    <strong>@item.Price ₺</strong>
+                            </div>
+                                                                                                                                                                                                                                            `
+                                                                                                                                                                                                                                        });
 
-                    marker@item.Id.addListener("click", function () {
-                        info@item.Id.open(map, marker@item.Id);
-                    });
-                </text>
-            }
+                                                                                                                                                                                                                                        marker@(item.Id).addListener("click", function () {
+                                                                                                                                                                                                                                            info@(item.Id).open(map, marker@(item.Id));
+                                                                                                                                                                                                                                        });
+
+                                                                                                                                                                </text>
+                                                                                    }
         }
-    }
+    };
+
 </script>
 
 <script async defer

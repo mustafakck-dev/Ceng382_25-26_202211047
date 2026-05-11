@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using YemekAlemi.Data;
+using YemekAlemi.Models;
+using YemekAlemi.Services;
 
 namespace YemekAlemi.Areas.Identity.Pages.Account
 {
@@ -21,11 +24,22 @@ namespace YemekAlemi.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly AppDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly EmailService _emailService;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+    SignInManager<IdentityUser> signInManager,
+    ILogger<LoginModel> logger,
+    AppDbContext context,
+    UserManager<IdentityUser> userManager,
+    EmailService emailService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
+            _userManager = userManager;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -111,23 +125,52 @@ namespace YemekAlemi.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                if (user != null)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    var passwordValid = await _userManager.CheckPasswordAsync(user, Input.Password);
+
+                    if (passwordValid)
+                    {
+                        var code = new Random().Next(100000, 999999).ToString();
+
+                        HttpContext.Session.SetString("TwoFactorUserId", user.Id);
+                        HttpContext.Session.SetString("TwoFactorCode", code);
+                        HttpContext.Session.SetString("TwoFactorRememberMe", Input.RememberMe.ToString());
+
+                        _emailService.SendEmail(
+                            Input.Email,
+                            "YemekAlemi Two-Factor Login Code",
+                            $"Your YemekAlemi verification code is: {code}",
+                            user.Id
+                        );
+
+                        _context.AppLogs.Add(new AppLog
+                        {
+                            EventType = "Security",
+                            Message = $"2FA code generated for: {Input.Email}",
+                            UserEmail = Input.Email,
+                            CreatedAt = DateTime.Now
+                        });
+
+                        _context.SaveChanges();
+
+                        return RedirectToPage("./VerifyTwoFactor");
+                    }
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
+
                 else
                 {
+                    _context.AppLogs.Add(new AppLog
+                    {
+                        EventType = "Security",
+                        Message = $"Failed login attempt: {Input.Email}",
+                        UserEmail = Input.Email,
+                        CreatedAt = DateTime.Now
+                    });
+
+                    _context.SaveChanges();
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }

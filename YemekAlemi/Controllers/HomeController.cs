@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using YemekAlemi.Data;
 using YemekAlemi.Models;
 using YemekAlemi.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace YemekAlemi.Controllers;
 
@@ -15,9 +16,22 @@ public class HomeController : Controller
         _context = context;
     }
 
-    public IActionResult Index(double? userLat, double? userLng, double? maxDistanceKm)
+    public IActionResult Index(double? userLat, double? userLng, double? maxDistanceKm, string? search)
     {
-        var foods = _context.Foods.ToList();
+        var foods = _context.Foods
+    .Include(f => f.CustomizationOptions)
+    .ToList();
+        if (!string.IsNullOrEmpty(search))
+        {
+            foods = foods
+                .Where(f =>
+                    f.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    (!string.IsNullOrEmpty(f.RestaurantName) &&
+                     f.RestaurantName.Contains(search, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
+        }
+
+        ViewBag.Search = search;
 
         if (userLat.HasValue && userLng.HasValue && maxDistanceKm.HasValue)
         {
@@ -30,8 +44,34 @@ public class HomeController : Controller
         ViewBag.UserLat = userLat;
         ViewBag.UserLng = userLng;
         ViewBag.MaxDistanceKm = maxDistanceKm;
+        ViewBag.MenuRatings = _context.Ratings
+    .GroupBy(r => r.FoodId)
+    .Select(g => new
+    {
+        FoodId = g.Key,
+        Average = Math.Round(g.Average(x => x.MenuRating), 1)
+    })
+    .ToDictionary(x => x.FoodId, x => x.Average);
 
-        return View(foods);
+        ViewBag.TopRatedFoods = _context.Foods
+        .Select(f => new
+        {
+            Food = f,
+            AverageRating = _context.Ratings
+                .Where(r => r.FoodId == f.Id)
+                .Average(r => (double?)r.MenuRating) ?? 0
+        })
+        .OrderByDescending(x => x.AverageRating)
+        .Take(3)
+        .ToList();
+
+        var restaurants = foods
+    .Where(f => !string.IsNullOrWhiteSpace(f.RestaurantName))
+    .GroupBy(f => f.RestaurantName.Trim().ToLower())
+    .Select(g => g.First())
+    .ToList();
+
+        return View(restaurants);
     }
 
     private double CalculateDistanceKm(double lat1, double lon1, double lat2, double lon2)
@@ -55,7 +95,8 @@ public class HomeController : Controller
     {
         return degree * Math.PI / 180;
     }
-    public IActionResult AddToCart(int id, string customization)
+    [HttpPost]
+    public IActionResult AddToCart(int id, int customizationOptionId)
     {
         var food = _context.Foods.FirstOrDefault(f => f.Id == id);
 
@@ -64,26 +105,27 @@ public class HomeController : Controller
             return NotFound();
         }
 
+        string customizationName = "No customization";
         double customizationPrice = 0;
 
-        if (customization == "Extra Cheese")
+        if (customizationOptionId != 0)
         {
-            customizationPrice = 20;
-        }
-        else if (customization == "Extra Sauce")
-        {
-            customizationPrice = 10;
-        }
-        else if (customization == "Large Size")
-        {
-            customizationPrice = 30;
+            var option = _context.CustomizationOptions
+                .FirstOrDefault(o => o.Id == customizationOptionId && o.FoodId == id);
+
+            if (option != null)
+            {
+                customizationName = option.Name;
+                customizationPrice = (double)option.ExtraPrice;
+            }
         }
 
-        var cart = SessionHelper.GetObject<List<CartItem>>(HttpContext.Session, "Cart") ?? new List<CartItem>();
+        var cart = SessionHelper.GetObject<List<CartItem>>(HttpContext.Session, "Cart")
+            ?? new List<CartItem>();
 
         var existingItem = cart.FirstOrDefault(x =>
             x.FoodId == food.Id &&
-            x.Customization == customization);
+            x.Customization == customizationName);
 
         if (existingItem != null)
         {
@@ -97,10 +139,19 @@ public class HomeController : Controller
                 Name = food.Name,
                 Price = food.Price,
                 Quantity = 1,
-                Customization = customization,
+                Customization = customizationName,
                 CustomizationPrice = customizationPrice
             });
         }
+        _context.AppLogs.Add(new AppLog
+        {
+            EventType = "Cart",
+            Message = $"{food.Name} added to cart. Customization: {customizationName}",
+            UserEmail = User.Identity?.Name,
+            CreatedAt = DateTime.Now
+        });
+
+        _context.SaveChanges();
 
         SessionHelper.SetObject(HttpContext.Session, "Cart", cart);
 
@@ -116,5 +167,31 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+    public IActionResult RestaurantMenus(string restaurantName)
+    {
+        if (string.IsNullOrEmpty(restaurantName))
+        {
+            return RedirectToAction("Index");
+        }
+
+        var foods = _context.Foods
+            .Include(f => f.CustomizationOptions)
+            .Where(f => f.RestaurantName == restaurantName)
+            .ToList();
+
+        ViewBag.RestaurantName = restaurantName;
+
+        ViewBag.MenuRatings = _context.Ratings
+            .GroupBy(r => r.FoodId)
+            .Select(g => new
+            {
+                FoodId = g.Key,
+                Average = Math.Round(g.Average(x => x.MenuRating), 1)
+            })
+            .ToDictionary(x => x.FoodId, x => x.Average);
+
+
+        return View(foods);
     }
 }

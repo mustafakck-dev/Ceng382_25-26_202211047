@@ -1,6 +1,15 @@
 @model List<YemekAlemi.Models.Order>
 
 <h1>My Completed Orders</h1>
+<div class="card">
+    <form method="get" asp-controller="Ratings" asp-action="MyCompletedOrders">
+        <label>Search Orders</label>
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="Search order id, price or food..." />
+
+        <button type="submit">Filter Orders</button>
+        <a class="btn-main" href="/Ratings/MyCompletedOrders">Clear</a>
+    </form>
+</div>
 
 @if (TempData["Message"] != null)
 {
@@ -21,6 +30,11 @@ else
             <p><strong>Total:</strong> @order.TotalPrice ₺</p>
             <p><strong>Status:</strong> @order.Status</p>
             <p><strong>Date:</strong> @order.CreatedAt</p>
+            <p>
+                <a href="/Documents/Receipt?orderId=@order.Id">View Receipt</a> |
+                <a href="/Documents/Agreement?orderId=@order.Id">View Agreement</a>
+                
+            </p>
 
             <table>
                 <thead>
@@ -40,6 +54,11 @@ else
                             <td>@item.Customization</td>
                             <td>
                                 <a href="/Ratings/Create?orderId=@order.Id&foodId=@item.FoodId">Rate</a>
+                                <td>
+                                    <a class="btn-main" href="/Call/Room?orderId=@order.Id">
+                                        Live Call
+                                    </a>
+                                </td>
                             </td>
                         </tr>
                     }
@@ -48,3 +67,16 @@ else
         </div>
     }
 }
+<div class="pagination">
+    @if (ViewBag.CurrentPage > 1)
+    {
+        <a href="/Ratings/MyCompletedOrders?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search">Previous</a>
+    }
+
+    <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages</span>
+
+    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+    {
+        <a href="/Ratings/MyCompletedOrders?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search">Next</a>
+    }
+</div>

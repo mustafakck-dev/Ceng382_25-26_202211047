@@ -15,8 +15,12 @@
             <a class="brand" href="/Home/Index">🍽 YemekAlemi</a>
 
             <a href="/Home/Index">Home</a>
-
             @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a href="/Dashboard/Index">Dashboard</a>
+            }
+
+            @if (User.IsInRole("User"))
             {
                 <a href="/Ratings/MyCompletedOrders">My Orders</a>
                 <a href="/Cart/Index">Cart</a>
@@ -24,7 +28,10 @@
 
             @if (User.IsInRole("Caretaker"))
             {
+               
                 <a href="/Foods/Create">Create Food</a>
+                <a href="/Foods/Index">Manage Menus</a>
+                <a href="/Ratings/MyCompletedOrders">Ratings</a>
             }
 
             @if (User.IsInRole("Admin"))

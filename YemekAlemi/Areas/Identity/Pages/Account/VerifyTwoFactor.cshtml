@@ -1,0 +1,23 @@
+@page
+@model YemekAlemi.Areas.Identity.Pages.Account.VerifyTwoFactorModel
+
+@{
+    ViewData["Title"] = "Two-Factor Verification";
+}
+
+<div class="auth-card">
+    <h1>Two-Factor Verification</h1>
+
+    <p class="auth-subtitle">
+        Enter the 6-digit code sent to your email.
+    </p>
+
+    <form method="post">
+        <label>Verification Code</label>
+        <input asp-for="Code" placeholder="Example: 123456" />
+
+        <span class="text-danger">@Model.ErrorMessage</span>
+
+        <button type="submit">Verify</button>
+    </form>
+</div>
