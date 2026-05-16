@@ -1,16 +1,16 @@
 @model List<YemekAlemi.Models.Food>
 
 @{
-    ViewData["Title"] = ViewBag.RestaurantName + " Menus";
+    ViewData["Title"] = ViewBag.RestaurantName + " Catering Packages";
 }
 
 <div class="section-header">
     <h1>@ViewBag.RestaurantName</h1>
-    <p>Available meals from this restaurant.</p>
+    <p>Available catering packages from this company.</p>
 </div>
 
 <a class="btn-secondary" href="/Home/Index">
-    ← Back to Restaurants
+    ← Back to Catering Companies
 </a>
 
 <br />
@@ -19,8 +19,8 @@
 @if (Model == null || !Model.Any())
 {
     <div class="empty-box">
-        <h2>No menu items found</h2>
-        <p>This restaurant does not have any menu items yet.</p>
+        <h2>No catering packages found</h2>
+        <p>This catering company does not have any packages yet.</p>
     </div>
 }
 else
@@ -47,7 +47,7 @@ else
                     <h2>@item.Name</h2>
 
                     <p class="restaurant">
-                        @item.RestaurantName
+                        Catering Company: @item.RestaurantName
                     </p>
 
                     <p class="address">
@@ -55,6 +55,19 @@ else
                     </p>
 
                     <p>@item.Description</p>
+
+                    <div class="package-contents-box">
+                        <strong>Package Contents:</strong>
+
+                        @if (!string.IsNullOrWhiteSpace(item.PackageContents))
+                        {
+                            <p>@item.PackageContents</p>
+                        }
+                        else
+                        {
+                            <p>Package contents have not been specified yet.</p>
+                        }
+                    </div>
 
                     @{
                         var ratings = ViewBag.MenuRatings as Dictionary<int, double>;
@@ -68,29 +81,37 @@ else
                     </div>
 
                     <div class="price">
-                        @item.Price ₺
+                        @item.Price ₺ / guest
                     </div>
 
                     <form asp-controller="Home" asp-action="AddToCart" method="post">
 
                         <input type="hidden" name="id" value="@item.Id" />
 
-                        <select name="customizationOptionId">
-                            <option value="0">No customization (+0 ₺)</option>
+                        <label>Package Service Add-ons</label>
+
+                        <div class="package-addons-box modern-addons">
+                            <label>Optional Package Add-ons</label>
 
                             @if (item.CustomizationOptions != null && item.CustomizationOptions.Any())
                             {
                                 @foreach (var option in item.CustomizationOptions)
                                 {
-                                    <option value="@option.Id">
-                                        @option.Name (+@option.ExtraPrice ₺)
-                                    </option>
+                                    <div>
+                                        <input type="checkbox" name="customizationOptionIds" value="@option.Id" />
+
+                                        <span>@option.Name (+@option.ExtraPrice ₺ / guest)</span>
+                                    </div>
                                 }
                             }
-                        </select>
+                            else
+                            {
+                                <p>No add-ons available.</p>
+                            }
+                        </div>
 
                         <button type="submit">
-                            Add to Cart
+                            Add Package to Cart
                         </button>
 
                     </form>

@@ -1,0 +1,150 @@
+@model List<YemekAlemi.Models.Order>
+
+@{
+    ViewData["Title"] = "My Catering Orders";
+}
+
+<div class="section-header">
+
+    <h1>My Catering Orders</h1>
+    <div class="card">
+
+        <form method="get">
+
+            <label>Search Orders</label>
+
+            <input type="text" name="search" value="@ViewBag.Search"
+                   placeholder="Search order id, event or package..." />
+
+            <br />
+            <br />
+
+            <button type="submit" class="btn-main">
+                Filter Orders
+            </button>
+
+            <a class="btn-secondary" href="/CatererOrders">
+                Clear
+            </a>
+
+        </form>
+
+    </div>
+
+    <br />
+    <p>
+        View and update catering orders related to your catering company.
+    </p>
+
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="empty-box">
+
+        <h2>No catering orders found</h2>
+
+    </div>
+}
+else
+{
+    <table>
+
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Event Type</th>
+                <th>Guest Count</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Update Status</th>
+                <th>Order Date</th>
+                <th>Packages</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var order in Model)
+            {
+                <tr>
+
+                    <td>#@order.Id</td>
+
+                    <td>@order.UserId</td>
+
+                    <td>@order.EventType</td>
+
+                    <td>@order.GuestCount</td>
+
+                    <td>@order.TotalPrice ₺</td>
+
+                    <td>
+                        <span class="status-completed">
+                            @order.Status
+                        </span>
+                    </td>
+
+                    <td>
+                        <form asp-controller="CatererOrders" asp-action="UpdateStatus" method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="orderId" value="@order.Id" />
+
+                            <select name="status">
+                                <option value="Completed" selected="@(order.Status == "Completed")">
+                                    Completed
+                                </option>
+
+                                <option value="Preparing" selected="@(order.Status == "Preparing")">
+                                    Preparing
+                                </option>
+
+                                <option value="Ready" selected="@(order.Status == "Ready")">
+                                    Ready
+                                </option>
+
+                                <option value="Delivered" selected="@(order.Status == "Delivered")">
+                                    Delivered
+                                </option>
+                            </select>
+
+                            <button type="submit">
+                                Update
+                            </button>
+
+                        </form>
+                    </td>
+
+                    <td>
+                        @order.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                    </td>
+
+                    <td>
+
+                        <ul class="customization-list">
+
+                            @foreach (var item in order.Items)
+                            {
+                                <li>
+                                    @item.Name
+                                    -
+                                    @item.Quantity package
+                                    -
+                                    @item.Customization
+                                </li>
+                            }
+
+                        </ul>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+}

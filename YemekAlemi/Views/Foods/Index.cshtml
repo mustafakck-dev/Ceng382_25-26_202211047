@@ -1,25 +1,29 @@
 @model List<YemekAlemi.Models.Food>
 
 @{
-    ViewData["Title"] = "Manage Menus";
+    ViewData["Title"] = "Manage Catering Packages";
 }
 
 <div class="section-header">
-    <h1>Manage Menus</h1>
-    <p>Create, edit, delete menu items and manage customization options.</p>
+    <h1>Manage Catering Packages</h1>
+
+    <p>
+        Create, edit, delete catering packages and manage package customization options.
+    </p>
 </div>
 
 <a class="btn-main" href="/Foods/Create">
-    Create New Menu
+    Create New Catering Package
 </a>
+<br />
+<br />
 
-<br />
-<br />
+
 
 @if (Model == null || !Model.Any())
 {
     <div class="empty-box">
-        <h2>No menu items found</h2>
+        <h2>No catering packages found</h2>
     </div>
 }
 else
@@ -28,9 +32,10 @@ else
         <thead>
             <tr>
                 <th>Image</th>
-                <th>Name</th>
-                <th>Restaurant</th>
-                <th>Price</th>
+                <th>Package Name</th>
+                <th>Catering Company</th>
+                <th>Package Contents</th>
+                <th>Price Per Guest</th>
                 <th>Customizations</th>
                 <th>Actions</th>
             </tr>
@@ -40,6 +45,7 @@ else
             @foreach (var item in Model)
             {
                 <tr>
+
                     <td>
                         @if (!string.IsNullOrEmpty(item.ImageUrl))
                         {
@@ -55,10 +61,22 @@ else
 
                     <td>@item.RestaurantName</td>
 
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(item.PackageContents))
+                        {
+                            <span>@item.PackageContents</span>
+                        }
+                        else
+                        {
+                            <span>No package contents specified</span>
+                        }
+                    </td>
+
                     <td>@item.Price ₺</td>
 
                     <td>
-                        @if (item.CustomizationOptions != null && item.CustomizationOptions.Any())
+                        @if (item.CustomizationOptions != null &&
+                                                                                                                             item.CustomizationOptions.Any())
                         {
                             <ul class="customization-list">
                                 @foreach (var option in item.CustomizationOptions)
@@ -81,7 +99,7 @@ else
                         <br />
 
                         <a class="add-customization-btn" href="/CustomizationOptions/Create?foodId=@item.Id">
-                            + Add Customization
+                            + Add Package Customization
                         </a>
                     </td>
 
@@ -94,8 +112,42 @@ else
                             Delete
                         </a>
                     </td>
+
                 </tr>
             }
         </tbody>
     </table>
+    @if (ViewBag.TotalPages > 1)
+    {
+        <div class="pagination">
+
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <a href="/Foods/Index?page=@(ViewBag.CurrentPage - 1)">
+                    Previous
+                </a>
+            }
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                if (i == ViewBag.CurrentPage)
+                {
+                    <span class="active-page">@i</span>
+                }
+                else
+                {
+                    <a href="/Foods/Index?page=@i">@i</a>
+                }
+            }
+
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <a href="/Foods/Index?page=@(ViewBag.CurrentPage + 1)">
+                    Next
+                </a>
+            }
+
+        </div>
+    }
+
 }

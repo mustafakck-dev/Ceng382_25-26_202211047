@@ -1,18 +1,22 @@
 ﻿@model List<YemekAlemi.Models.Food>
 
 @{
-    ViewData["Title"] = "Available Menus";
+    ViewData["Title"] = "Catering Companies";
 }
 
 <div class="hero-section">
-    <h1>Discover Delicious Meals Near You</h1>
-    <p>Browse nearby caterers, add meals to your cart, and complete your order easily.</p>
+    <h1>Discover Professional Catering Companies Near You</h1>
+
+    <p>
+        Browse catering companies, explore meal packages,
+        customize orders, and complete catering requests easily.
+    </p>
 </div>
 @if (ViewBag.TopRatedFoods != null)
 {
     <div class="top-rated-section">
 
-        <h2>🔥 Top Rated Meals</h2>
+        <h2>🔥 Top Rated Catering Packages</h2>
 
         <div class="top-rated-grid">
 
@@ -38,34 +42,51 @@
     </div>
 }
 
-<div class="card location-card">
+<div class="location-layout">
 
-    <h2>Find Nearby Restaurants</h2>
+    <div class="card location-card">
 
-    <form method="get" asp-controller="Home" asp-action="Index">
+        <h2>Find Nearby Catering Companies</h2>
 
-       
+        <form method="get" asp-controller="Home" asp-action="Index">
 
-        <label>Your Latitude</label>
-        <input id="userLat" type="text" name="userLat" value="@ViewBag.UserLat" placeholder="Example: 39.9208" />
+            <label>Your Latitude</label>
+            <input id="userLat" type="text" name="userLat" value="@ViewBag.UserLat" placeholder="Example: 39.9208" />
 
-        <label>Your Longitude</label>
-        <input id="userLng" type="text" name="userLng" value="@ViewBag.UserLng" placeholder="Example: 32.8541" />
+            <label>Your Longitude</label>
+            <input id="userLng" type="text" name="userLng" value="@ViewBag.UserLng" placeholder="Example: 32.8541" />
 
-        <label>Max Distance (km)</label>
-        <input type="text" name="maxDistanceKm" value="@ViewBag.MaxDistanceKm" placeholder="Example: 5" />
+            <label>Max Distance (km)</label>
+            <input type="text" name="maxDistanceKm" value="@ViewBag.MaxDistanceKm" placeholder="Example: 5" />
 
-        <button type="button" onclick="getMyLocation()">
-            Use My Location
-        </button>
+            <button type="button" onclick="getMyLocation()">
+                Use My Location
+            </button>
 
-        <button type="submit">
-            Filter Nearby Menus
-        </button>
+            <button type="submit">
+                Filter Nearby Catering Companies
+            </button>
 
-    </form>
+        </form>
 
-    <a href="/Home/Index">Clear Filter</a>
+        <a href="/Home/Index">Clear Filter</a>
+
+    </div>
+
+    <div class="card catering-info-card">
+
+        <h2>How Catering Works</h2>
+
+        <p>Choose a catering company, select a package, enter guest count and event details.</p>
+
+        <ul>
+            <li>Company-based package selection</li>
+            <li>Guest count pricing</li>
+            <li>Event date and address</li>
+            <li>Receipt and agreement generation</li>
+        </ul>
+
+    </div>
 
 </div>
 
@@ -77,22 +98,118 @@
 </div>
 
 <div class="card">
-    <h2> Restourants</h2>
 
-    <form method="get" asp-controller="Home" asp-action="Index">
-        <label>Search Restaurant</label>
-        <input type="text" name="search" value="@ViewBag.Search" />
+    <h2>Catering Companies</h2>
 
-        <button type="submit">Search</button>
-        <a class="btn-main" href="/Home/Index">Clear</a>
+    <form method="get" asp-controller="Home" asp-action="Index" class="advanced-filter-form">
+
+        <div class="filter-grid">
+
+            <div>
+                <label>Search Catering Company</label>
+
+                <input type="text" name="search" value="@ViewBag.Search"
+                       placeholder="Search by company or package name" />
+            </div>
+
+            <div>
+                <label>Select Catering Company</label>
+
+                <select name="company">
+
+                    <option value="">
+                        All Catering Companies
+                    </option>
+
+                    @if (ViewBag.Companies != null)
+                    {
+                        foreach (var company in ViewBag.Companies)
+                        {
+                            <option value="@company" selected="@(ViewBag.SelectedCompany == company)">
+
+                                @company
+
+                            </option>
+                        }
+                    }
+
+                </select>
+            </div>
+
+            <div>
+                <label>Package Type</label>
+
+                <select name="packageType">
+
+                    <option value="">
+                        All Package Types
+                    </option>
+
+                    @if (ViewBag.PackageTypes != null)
+                    {
+                        foreach (var type in ViewBag.PackageTypes)
+                        {
+                            <option value="@type" selected="@(ViewBag.SelectedPackageType == type)">
+
+                                @type
+
+                            </option>
+                        }
+                    }
+
+                </select>
+                <div>
+                    <label>District</label>
+
+                    <select name="district">
+
+                        <option value="">
+                            All Districts
+                        </option>
+
+                        @if (ViewBag.Districts != null)
+                        {
+                            foreach (var district in ViewBag.Districts)
+                            {
+                                <option value="@district" selected="@(ViewBag.SelectedDistrict == district)">
+                                    @district
+                                </option>
+                            }
+                        }
+
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="filter-buttons">
+
+            <button type="submit">
+                Search & Filter
+            </button>
+
+            <a class="btn-main" href="/Home/Index">
+
+                Clear
+
+            </a>
+
+        </div>
+
     </form>
+
 </div>
 
 @if (Model == null || !Model.Any())
 {
     <div class="empty-box">
-        <h2>No menu items found</h2>
-        <p>Try increasing the distance filter or clear the filter to see all available meals.</p>
+        <h2>No catering companies found</h2>
+
+        <p>
+            Try increasing the distance filter
+            or clear the filter to see all available catering companies.
+        </p>
 
         <a class="btn-main" href="/Home/Index">
             Clear Filter
@@ -122,13 +239,26 @@ else
 
                 <div class="menu-content">
 
-                    <h2>@item.RestaurantName</h2>
+                    <div class="company-top">
 
-                    <p class="restaurant">
-                        @(string.IsNullOrEmpty(item.RestaurantName)
-                            ? "Restaurant not specified"
-                            : item.RestaurantName)
-                    </p>
+                        <h2>@item.RestaurantName</h2>
+
+                        @{
+                            var ratings = ViewBag.MenuRatings as Dictionary<int, double>;
+
+                            var avgRating = ratings != null &&
+                                            ratings.ContainsKey(item.Id)
+                                ? ratings[item.Id]
+                                : 0;
+                        }
+
+                        <div class="company-rating">
+                            ⭐ @(avgRating > 0
+                                                                                                                                ? avgRating.ToString("0.0")
+                                                                                                                                : "New")
+                        </div>
+
+                    </div>
 
                     <p class="address">
                         @(string.IsNullOrEmpty(item.Address)
@@ -136,19 +266,29 @@ else
                             : item.Address)
                     </p>
 
-                    <p>Click to view all menus from this restaurant.</p>
-                    @{
-                        var ratings = ViewBag.MenuRatings as Dictionary<int, double>;
-                        var avgRating = ratings != null && ratings.ContainsKey(item.Id)
-                            ? ratings[item.Id]
-                            : 0;
-                    }
+                    <div class="company-preview-box">
+
+                        <p>
+                            Professional catering services for corporate meetings,
+                            weddings, seminars and special organizations.
+                        </p>
+
+                        <div class="company-features">
+
+                            <span>✔ Event Catering</span>
+                            <span>✔ Guest-Based Pricing</span>
+                            <span>✔ Custom Packages</span>
+
+                        </div>
+
+                    </div>
+
+                    
 
                     
                     
-
                     <a class="btn-main" href="/Home/RestaurantMenus?restaurantName=@item.RestaurantName">
-                        View Restaurant Menu
+                        View Catering Packages
                     </a>
                 </div>
             </div>
@@ -226,28 +366,28 @@ else
                                 position: {
                                 lat: @item.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture),
                             lng: @item.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)
-                                                                                                                                                                                                                                            },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        },
                             map: map,
                             title: "@item.RestaurantName"
-                                                                                                                                                                                                                                        });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
 
                             const info@(item.Id) = new google.maps.InfoWindow({
                                 content: `
                             <div style="min-width:200px">
                                     <strong>@item.RestaurantName</strong><br />
-                                                                                                                                                                                                                                                                                                                            @item.Name<br />
-                                                                                                                                                                                                                                                                                                                            @item.Address<br />
+                                    Catering Packages Available<br />
+                                                                                                                                 @item.Address<br />
                                     <strong>@item.Price ₺</strong>
                             </div>
-                                                                                                                                                                                                                                            `
-                                                                                                                                                                                                                                        });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        `
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
 
-                                                                                                                                                                                                                                        marker@(item.Id).addListener("click", function () {
-                                                                                                                                                                                                                                            info@(item.Id).open(map, marker@(item.Id));
-                                                                                                                                                                                                                                        });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    marker@(item.Id).addListener("click", function () {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        info@(item.Id).open(map, marker@(item.Id));
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
 
-                                                                                                                                                                </text>
-                                                                                    }
+                                                                                                                                                                                                                                                                                                        </text>
+                                                                                                                                                        }
         }
     };
 

@@ -4,49 +4,80 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - YemekAlemi</title>
+
+    <title>@ViewData["Title"] - YemekAlemi Catering Platform</title>
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 <body>
+
     <nav class="navbar">
         <div class="nav-left">
-            <a class="brand" href="/Home/Index">🍽 YemekAlemi</a>
+
+            <a class="brand" href="/Home/Index">
+                🍽 YemekAlemi Catering
+            </a>
 
             <a href="/Home/Index">Home</a>
+
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 <a href="/Dashboard/Index">Dashboard</a>
+                <a href="/Profile">My Profile</a>
+                <a href="/Notifications">🔔 Notifications</a>
             }
 
             @if (User.IsInRole("User"))
             {
-                <a href="/Ratings/MyCompletedOrders">My Orders</a>
-                <a href="/Cart/Index">Cart</a>
+                <a href="/Ratings/MyCompletedOrders">
+                    My Orders
+                </a>
+
+                <a href="/Cart/Index">
+                    Catering Cart
+                </a>
             }
 
-            @if (User.IsInRole("Caretaker"))
+            @if (User.IsInRole("Caterer"))
             {
-               
-                <a href="/Foods/Create">Create Food</a>
-                <a href="/Foods/Index">Manage Menus</a>
-                <a href="/Ratings/MyCompletedOrders">Ratings</a>
+                <a href="/Foods/Create">
+                    Create Package
+                </a>
+
+                <a href="/Foods/Index">
+                    Manage Packages
+                </a>
+
+                <a href="/Ratings/MyCompletedOrders">
+                    Customer Ratings
+                </a>
             }
 
             @if (User.IsInRole("Admin"))
             {
-                <a href="/AdminLogs/Index">System Logs</a>
+                <a href="/AdminCompanies/Create">
+                    Create Company
+                </a>
+
+                <a href="/AdminLogs/Index">
+                    System Logs
+                </a>
             }
+
         </div>
 
         <div class="nav-right">
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                <span class="hello-text">Hello @User.Identity.Name</span>
+                <span class="hello-text">
+                    Hello @User.Identity.Name
+                </span>
 
                 <form asp-area="Identity" asp-page="/Account/Logout" method="post">
-                    <button type="submit" class="logout-btn">Logout</button>
+                    <button type="submit" class="logout-btn">
+                        Logout
+                    </button>
                 </form>
             }
             else
@@ -62,10 +93,11 @@
     </main>
 
     <footer>
-        © 2026 YemekAlemi
+        © 2026 YemekAlemi Catering Platform
     </footer>
 
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 
 </html>

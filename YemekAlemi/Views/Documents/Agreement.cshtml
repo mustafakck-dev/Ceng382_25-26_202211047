@@ -1,44 +1,145 @@
 @model YemekAlemi.Models.Order
 
 @{
-    ViewData["Title"] = "Agreement";
+    ViewData["Title"] = "Catering Agreement";
 }
 
 <div class="document-card">
-    <h1>YemekAlemi Order Agreement</h1>
+
+    <h1>YemekAlemi Catering Service Agreement</h1>
 
     <p>
-        This agreement is generated dynamically for Order #@Model.Id.
-        It confirms that the customer has completed a simulated payment
-        and the catering order has been recorded in the system.
+        This agreement confirms that the customer has successfully
+        completed a catering booking through the YemekAlemi
+        Catering Management Platform.
     </p>
 
-    <h2>Order Information</h2>
+    <hr />
 
+    <h2>Agreement Information</h2>
+
+    <p><strong>Agreement No:</strong> AGR-@Model.Id</p>
     <p><strong>Order ID:</strong> @Model.Id</p>
     <p><strong>Customer/User ID:</strong> @Model.UserId</p>
-    <p><strong>Order Status:</strong> @Model.Status</p>
-    <p><strong>Agreement Date:</strong> @DateTime.Now</p>
+    <p><strong>Agreement Status:</strong> @Model.Status</p>
+    <p><strong>Agreement Date:</strong> @Model.CreatedAt</p>
 
-    <h2>Items Included in the Agreement</h2>
+    <hr />
+
+    <h2>Catering Event Information</h2>
+
+    <p><strong>Event Type:</strong> @Model.EventType</p>
+    <p><strong>Guest Count:</strong> @Model.GuestCount</p>
+    <p><strong>Event Date:</strong> @Model.EventDate</p>
+    <p><strong>Event Address:</strong> @Model.EventAddress</p>
+
+    @if (!string.IsNullOrWhiteSpace(Model.SpecialRequest))
+    {
+        <p><strong>Special Request:</strong> @Model.SpecialRequest</p>
+    }
+    else
+    {
+        <p><strong>Special Request:</strong> No special request provided.</p>
+    }
+
+    <hr />
+
+    <h2>Included Catering Packages</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Package</th>
+                <th>Customization</th>
+                <th>Per Guest Price</th>
+                <th>Guest Count</th>
+                <th>Package Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                var perGuestPrice =
+                    item.Price + item.CustomizationPrice;
+
+                var packageTotal =
+                    perGuestPrice * Model.GuestCount;
+
+                <tr>
+
+                    <td>@item.Name</td>
+
+                    <td>@item.Customization</td>
+
+                    <td>@perGuestPrice ₺</td>
+
+                    <td>@Model.GuestCount</td>
+
+                    <td>@packageTotal ₺</td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <hr />
+
+    <div class="agreement-total-box">
+
+        <h2>
+            Total Agreement Amount:
+            @Model.TotalPrice ₺
+        </h2>
+
+        <p>
+            The total amount includes catering packages,
+            customization services and guest-based pricing.
+        </p>
+
+    </div>
+
+    <hr />
+
+    <h2>Agreement Terms and Conditions</h2>
 
     <ul>
-        @foreach (var item in Model.Items)
-        {
-            <li>
-                @item.Quantity x @item.Name
-                — Customization: @item.Customization
-                — Price: @(item.Price + item.CustomizationPrice) ₺
-            </li>
-        }
+
+        <li>
+            The customer confirms that the provided event information
+            is accurate and complete.
+        </li>
+
+        <li>
+            Catering preparation and scheduling are planned according
+            to the selected event date and guest count.
+        </li>
+
+        <li>
+            Additional customization requests may require extra preparation time.
+        </li>
+
+        <li>
+            This agreement is generated automatically for academic
+            simulation purposes.
+        </li>
+
+        <li>
+            YemekAlemi Catering Platform reserves the right to update
+            simulated pricing and catering package details.
+        </li>
+
     </ul>
 
-    <h2>Total Agreement Amount: @Model.TotalPrice ₺</h2>
+    <button onclick="window.print()" class="btn-main">
+        Print / Save as PDF
+    </button>
+    <a class="btn-main" href="/Documents/DownloadAgreementPdf?orderId=@Model.Id">
 
-    <p>
-        This document is not a static file. It is generated using order-specific
-        data stored in the database.
-    </p>
+        Download Agreement PDF
 
-    <button onclick="window.print()">Print / Save as PDF</button>
+    </a>
+
 </div>

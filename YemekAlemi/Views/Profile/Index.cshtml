@@ -1,0 +1,71 @@
+@model Microsoft.AspNetCore.Identity.IdentityUser
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="section-header">
+    <h1>My Profile</h1>
+    <p>Manage your catering account information.</p>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="success-box">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="profile-grid">
+
+    <div class="card">
+
+        <h2>Account Information</h2>
+
+        <form asp-controller="Profile" asp-action="Update" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <label>Email Address</label>
+            <input value="@Model.Email" readonly />
+
+            <label>Username</label>
+            <input value="@Model.UserName" readonly />
+
+            <label>Phone Number</label>
+            <input type="text" name="phoneNumber" value="@Model.PhoneNumber" placeholder="Example: 05xx xxx xx xx" />
+
+            <br />
+
+            <button type="submit">
+                Save Profile
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Account Summary</h2>
+
+        <p>
+            <strong>Email:</strong>
+            @Model.Email
+        </p>
+
+        <p>
+            <strong>Username:</strong>
+            @Model.UserName
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            @(string.IsNullOrWhiteSpace(Model.PhoneNumber)
+                ? "Not specified"
+                : Model.PhoneNumber)
+        </p>
+
+    </div>
+
+</div>

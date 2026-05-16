@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -29,71 +27,39 @@ namespace YemekAlemi.Areas.Identity.Pages.Account
         private readonly EmailService _emailService;
 
         public LoginModel(
-    SignInManager<IdentityUser> signInManager,
-    ILogger<LoginModel> logger,
-    AppDbContext context,
-    UserManager<IdentityUser> userManager,
-    EmailService emailService)
+            SignInManager<IdentityUser> signInManager,
+            ILogger<LoginModel> logger,
+            UserManager<IdentityUser> userManager,
+            AppDbContext context,
+            EmailService emailService)
         {
             _signInManager = signInManager;
             _logger = logger;
-            _context = context;
             _userManager = userManager;
+            _context = context;
             _emailService = emailService;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
@@ -107,10 +73,12 @@ namespace YemekAlemi.Areas.Identity.Pages.Account
 
             returnUrl ??= Url.Content("~/");
 
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins =
+                (await _signInManager
+                    .GetExternalAuthenticationSchemesAsync())
+                .ToList();
 
             ReturnUrl = returnUrl;
         }
@@ -119,25 +87,41 @@ namespace YemekAlemi.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins =
+                (await _signInManager
+                    .GetExternalAuthenticationSchemesAsync())
+                .ToList();
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var user = await _userManager.FindByEmailAsync(Input.Email);
+                var user =
+                    await _userManager.FindByEmailAsync(Input.Email);
 
                 if (user != null)
                 {
-                    var passwordValid = await _userManager.CheckPasswordAsync(user, Input.Password);
+                    var passwordValid =
+                        await _userManager.CheckPasswordAsync(
+                            user,
+                            Input.Password);
 
                     if (passwordValid)
                     {
-                        var code = new Random().Next(100000, 999999).ToString();
+                        var code =
+                            new Random()
+                                .Next(100000, 999999)
+                                .ToString();
 
-                        HttpContext.Session.SetString("TwoFactorUserId", user.Id);
-                        HttpContext.Session.SetString("TwoFactorCode", code);
-                        HttpContext.Session.SetString("TwoFactorRememberMe", Input.RememberMe.ToString());
+                        HttpContext.Session.SetString(
+                            "TwoFactorUserId",
+                            user.Id);
+
+                        HttpContext.Session.SetString(
+                            "TwoFactorCode",
+                            code);
+
+                        HttpContext.Session.SetString(
+                            "TwoFactorRememberMe",
+                            Input.RememberMe.ToString());
 
                         _emailService.SendEmail(
                             Input.Email,
@@ -145,6 +129,14 @@ namespace YemekAlemi.Areas.Identity.Pages.Account
                             $"Your YemekAlemi verification code is: {code}",
                             user.Id
                         );
+
+                        _context.AppLogs.Add(new AppLog
+                        {
+                            EventType = "Login",
+                            Message = $"Successful login for: {Input.Email}",
+                            UserEmail = Input.Email,
+                            CreatedAt = DateTime.Now
+                        });
 
                         _context.AppLogs.Add(new AppLog
                         {
@@ -160,23 +152,23 @@ namespace YemekAlemi.Areas.Identity.Pages.Account
                     }
                 }
 
-                else
+                _context.AppLogs.Add(new AppLog
                 {
-                    _context.AppLogs.Add(new AppLog
-                    {
-                        EventType = "Security",
-                        Message = $"Failed login attempt: {Input.Email}",
-                        UserEmail = Input.Email,
-                        CreatedAt = DateTime.Now
-                    });
+                    EventType = "Login",
+                    Message = $"Failed login attempt: {Input.Email}",
+                    UserEmail = Input.Email,
+                    CreatedAt = DateTime.Now
+                });
 
-                    _context.SaveChanges();
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+                _context.SaveChanges();
+
+                ModelState.AddModelError(
+                    string.Empty,
+                    "Invalid login attempt.");
+
+                return Page();
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }

@@ -1,0 +1,77 @@
+@model List<YemekAlemi.Models.AppLog>
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="section-header">
+    <h1>Notifications</h1>
+    <p>View your latest catering system activities and updates.</p>
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="empty-box">
+        <h2>No notifications found</h2>
+    </div>
+}
+else
+{
+    <div class="notification-list">
+
+        @foreach (var item in Model)
+        {
+            <div class="notification-card">
+
+                <div class="notification-icon">
+                    @if (item.EventType == "Order")
+                    {
+                        <span>📦</span>
+                    }
+                    else if (item.EventType == "Payment")
+                    {
+                        <span>💳</span>
+                    }
+                    else if (item.EventType == "Email")
+                    {
+                        <span>📧</span>
+                    }
+                    else if (item.EventType == "Security")
+                    {
+                        <span>🔐</span>
+                    }
+                    else if (item.EventType == "Cart")
+                    {
+                        <span>🛒</span>
+                    }
+                    else if (item.EventType == "Document")
+                    {
+                        <span>📄</span>
+                    }
+                    else if (item.EventType == "Menu")
+                    {
+                        <span>🍽️</span>
+                    }
+                    else
+                    {
+                        <span>🔔</span>
+                    }
+                </div>
+
+                <div class="notification-content">
+
+                    <h3>@item.EventType</h3>
+
+                    <p>@item.Message</p>
+
+                    <small>
+                        @item.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                    </small>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+}

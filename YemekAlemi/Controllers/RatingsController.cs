@@ -28,7 +28,7 @@ namespace YemekAlemi.Controllers
 
             var orders = _context.Orders
                 .Include(o => o.Items)
-                .Where(o => o.UserId == userId && o.Status == "Completed")
+                .Where(x => x.UserId == userId)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
@@ -54,25 +54,21 @@ namespace YemekAlemi.Controllers
             return View(pagedOrders);
         }
 
+        [HttpGet]
         public IActionResult Create(int orderId, int foodId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var order = _context.Orders
                 .Include(o => o.Items)
-                .FirstOrDefault(o => o.Id == orderId && o.UserId == userId && o.Status == "Completed");
+                .FirstOrDefault(o =>
+                    o.Id == orderId &&
+                    o.UserId == userId &&
+                    o.Status == "Delivered");
 
             if (order == null)
             {
-                return NotFound();
-            }
-
-            var alreadyRated = _context.Ratings
-                .Any(r => r.OrderId == orderId && r.FoodId == foodId && r.UserId == userId);
-
-            if (alreadyRated)
-            {
-                TempData["Message"] = "You have already rated this item.";
+                TempData["Message"] = "You can rate an order only after it is delivered.";
                 return RedirectToAction("MyCompletedOrders");
             }
 
@@ -81,6 +77,18 @@ namespace YemekAlemi.Controllers
             if (item == null)
             {
                 return NotFound();
+            }
+
+            var alreadyRated = _context.Ratings
+                .Any(r =>
+                    r.OrderId == orderId &&
+                    r.FoodId == foodId &&
+                    r.UserId == userId);
+
+            if (alreadyRated)
+            {
+                TempData["Message"] = "You have already rated this package.";
+                return RedirectToAction("MyCompletedOrders");
             }
 
             ViewBag.OrderId = orderId;
@@ -98,11 +106,15 @@ namespace YemekAlemi.Controllers
 
             var order = _context.Orders
                 .Include(o => o.Items)
-                .FirstOrDefault(o => o.Id == rating.OrderId && o.UserId == userId && o.Status == "Completed");
+                .FirstOrDefault(o =>
+                    o.Id == rating.OrderId &&
+                    o.UserId == userId &&
+                    o.Status == "Delivered");
 
             if (order == null)
             {
-                return NotFound();
+                TempData["Message"] = "You can rate an order only after it is delivered.";
+                return RedirectToAction("MyCompletedOrders");
             }
 
             var itemExists = order.Items.Any(i => i.FoodId == rating.FoodId);
@@ -113,11 +125,14 @@ namespace YemekAlemi.Controllers
             }
 
             var alreadyRated = _context.Ratings
-                .Any(r => r.OrderId == rating.OrderId && r.FoodId == rating.FoodId && r.UserId == userId);
+                .Any(r =>
+                    r.OrderId == rating.OrderId &&
+                    r.FoodId == rating.FoodId &&
+                    r.UserId == userId);
 
             if (alreadyRated)
             {
-                TempData["Message"] = "You have already rated this item.";
+                TempData["Message"] = "You have already rated this package.";
                 return RedirectToAction("MyCompletedOrders");
             }
 
@@ -140,6 +155,9 @@ namespace YemekAlemi.Controllers
 
                 return RedirectToAction("MyCompletedOrders");
             }
+
+            ViewBag.OrderId = rating.OrderId;
+            ViewBag.FoodId = rating.FoodId;
 
             return View(rating);
         }

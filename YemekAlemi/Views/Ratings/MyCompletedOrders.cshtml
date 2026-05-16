@@ -1,13 +1,24 @@
 @model List<YemekAlemi.Models.Order>
 
-<h1>My Completed Orders</h1>
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<h1>My Orders</h1>
+
 <div class="card">
     <form method="get" asp-controller="Ratings" asp-action="MyCompletedOrders">
         <label>Search Orders</label>
-        <input type="text" name="search" value="@ViewBag.Search" placeholder="Search order id, price or food..." />
 
-        <button type="submit">Filter Orders</button>
-        <a class="btn-main" href="/Ratings/MyCompletedOrders">Clear</a>
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="Search order id, price or package..." />
+
+        <button type="submit">
+            Filter Orders
+        </button>
+
+        <a class="btn-main" href="/Ratings/MyCompletedOrders">
+            Clear
+        </a>
     </form>
 </div>
 
@@ -18,65 +29,223 @@
 
 @if (Model == null || !Model.Any())
 {
-    <p>You do not have any completed orders yet.</p>
+    <div class="empty-box">
+        <h2>You do not have any catering orders yet.</h2>
+    </div>
 }
 else
 {
     @foreach (var order in Model)
     {
-        <div
-            style="background:white; padding:20px; margin-bottom:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-            <h3>Order #@order.Id</h3>
-            <p><strong>Total:</strong> @order.TotalPrice ₺</p>
-            <p><strong>Status:</strong> @order.Status</p>
-            <p><strong>Date:</strong> @order.CreatedAt</p>
-            <p>
-                <a href="/Documents/Receipt?orderId=@order.Id">View Receipt</a> |
-                <a href="/Documents/Agreement?orderId=@order.Id">View Agreement</a>
-                
-            </p>
+        <div class="card" style="margin-bottom:30px;">
+
+            <div class="order-header">
+
+                <div>
+                    <h2>Order #@order.Id</h2>
+                    <p><strong>Date:</strong> @order.CreatedAt.ToString("dd.MM.yyyy HH:mm")</p>
+                </div>
+
+                <div>
+                    <span class="status-badge">
+                        @order.Status
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="order-summary-grid">
+
+                <p><strong>Total:</strong> @order.TotalPrice ₺</p>
+                <p><strong>Guest Count:</strong> @order.GuestCount</p>
+                <p><strong>Event Type:</strong> @order.EventType</p>
+                <p><strong>Event Date:</strong> @order.EventDate</p>
+                <p><strong>Event Address:</strong> @order.EventAddress</p>
+                <p>
+                    <strong>Catering Companies:</strong>
+
+                    @string.Join(", ",
+                        order.Items
+                            .Select(x => x.RestaurantName)
+                            .Distinct())
+                </p>
+
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(order.SpecialRequest))
+            {
+                <p>
+                    <strong>Special Request:</strong>
+                    @order.SpecialRequest
+                </p>
+            }
+
+            <div class="tracking-box">
+
+                <h3>Order Tracking</h3>
+
+                <div class="tracking-steps">
+
+                    <div
+                        class="tracking-step @(order.Status == "Completed" || order.Status == "Preparing" || order.Status == "Ready" || order.Status == "Delivered" ? "active-step" : "")">
+                        <span>1</span>
+                        <p>Completed</p>
+                    </div>
+
+                    <div class="tracking-line"></div>
+
+                    <div
+                        class="tracking-step @(order.Status == "Preparing" || order.Status == "Ready" || order.Status == "Delivered" ? "active-step" : "")">
+                        <span>2</span>
+                        <p>Preparing</p>
+                    </div>
+
+                    <div class="tracking-line"></div>
+
+                    <div class="tracking-step @(order.Status == "Ready" || order.Status == "Delivered" ? "active-step" : "")">
+                        <span>3</span>
+                        <p>Ready</p>
+                    </div>
+
+                    <div class="tracking-line"></div>
+
+                    <div class="tracking-step @(order.Status == "Delivered" ? "active-step" : "")">
+                        <span>4</span>
+                        <p>Delivered</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="cart-actions" style="margin-top:20px;">
+
+                <a class="btn-main" href="/Documents/Receipt?orderId=@order.Id">
+                    View Receipt
+                </a>
+
+                <a class="btn-secondary" href="/Documents/Agreement?orderId=@order.Id">
+                    View Agreement
+                </a>
+
+                <a class="btn-main" href="/Documents/DownloadReceiptPdf?orderId=@order.Id">
+                    Download Receipt PDF
+                </a>
+
+                <a class="btn-secondary" href="/Documents/DownloadAgreementPdf?orderId=@order.Id">
+                    Download Agreement PDF
+                </a>
+
+                <a class="btn-main" href="/Call/Room?orderId=@order.Id">
+                    Live Call
+                </a>
+
+            </div>
+
+            <br />
 
             <table>
                 <thead>
                     <tr>
-                        <th>Food</th>
+                        <th>Package</th>
                         <th>Quantity</th>
                         <th>Customization</th>
-                        <th>Action</th>
+                        <th>Rating</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @foreach (var item in order.Items)
                     {
                         <tr>
-                            <td>@item.Name</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Customization</td>
                             <td>
-                                <a href="/Ratings/Create?orderId=@order.Id&foodId=@item.FoodId">Rate</a>
-                                <td>
-                                    <a class="btn-main" href="/Call/Room?orderId=@order.Id">
-                                        Live Call
-                                    </a>
-                                </td>
+                                <strong>@item.Name</strong>
+
+                                <br />
+
+                                <small style="color:gray;">
+                                    @item.RestaurantName
+                                </small>
+                            </td>
+
+                            <td>@item.Quantity package</td>
+
+                            <td>@item.Customization</td>
+
+                            <td>
+                                <a class="mini-link" href="/Ratings/Create?orderId=@order.Id&foodId=@item.FoodId">
+                                    Rate Package
+                                </a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
+
         </div>
     }
 }
-<div class="pagination">
-    @if (ViewBag.CurrentPage > 1)
-    {
-        <a href="/Ratings/MyCompletedOrders?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search">Previous</a>
-    }
 
-    <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages</span>
+@if (ViewBag.TotalPages > 1)
+{
+    <div class="pagination">
 
-    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-    {
-        <a href="/Ratings/MyCompletedOrders?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search">Next</a>
-    }
-</div>
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a href="/Ratings/MyCompletedOrders?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search">
+                Previous
+            </a>
+        }
+
+        @{
+            int startPage = Math.Max(1, ViewBag.CurrentPage - 2);
+            int endPage = Math.Min(ViewBag.TotalPages, ViewBag.CurrentPage + 2);
+        }
+
+        @if (startPage > 1)
+        {
+            <a href="/Ratings/MyCompletedOrders?page=1&search=@ViewBag.Search">
+                1
+            </a>
+
+            @if (startPage > 2)
+            {
+                <span>...</span>
+            }
+        }
+
+        @for (int i = startPage; i <= endPage; i++)
+        {
+            if (i == ViewBag.CurrentPage)
+            {
+                <span class="active-page">@i</span>
+            }
+            else
+            {
+                <a href="/Ratings/MyCompletedOrders?page=@i&search=@ViewBag.Search">
+                    @i
+                </a>
+            }
+        }
+
+        @if (endPage < ViewBag.TotalPages)
+        {
+            @if (endPage < ViewBag.TotalPages - 1)
+            {
+                <span>...</span>
+            }
+
+            <a href="/Ratings/MyCompletedOrders?page=@ViewBag.TotalPages&search=@ViewBag.Search">
+                @ViewBag.TotalPages
+            </a>
+        }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a href="/Ratings/MyCompletedOrders?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search">
+                Next
+            </a>
+        }
+
+    </div>
+}

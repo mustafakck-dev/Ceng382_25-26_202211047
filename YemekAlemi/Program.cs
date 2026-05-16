@@ -2,8 +2,11 @@ using YemekAlemi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using YemekAlemi.Services;
+using YemekAlemi.Models;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+QuestPDF.Settings.License = LicenseType.Community;
 
 // MVC + Razor Pages
 builder.Services.AddControllersWithViews();
@@ -11,6 +14,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddSession();
 builder.Services.AddScoped<LogService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<PdfService>();
 
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -24,6 +30,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
 })
+
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 

@@ -27,3 +27,122 @@
     </div>
 
 </div>
+
+<div class="dashboard-section">
+
+    <div class="card">
+        <h2>System Summary</h2>
+
+        <p><strong>Total Logs:</strong> @ViewBag.TotalLogs</p>
+        <p><strong>Total Emails Sent:</strong> @ViewBag.TotalEmails</p>
+        <p><strong>Total Revenue:</strong> @ViewBag.TotalRevenue ₺</p>
+
+        <br />
+
+        <a class="btn-main" href="/AdminLogs/Index">
+            View System Logs
+        </a>
+
+        <a class="btn-secondary" href="/AdminCompanies/Create">
+            Create Catering Company
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>Order Status Analytics</h2>
+
+        <canvas id="orderStatusChart" height="160"></canvas>
+    </div>
+
+</div>
+
+<div class="dashboard-section">
+
+    <div class="card">
+        <h2>Top Ordered Packages</h2>
+
+        @if (ViewBag.TopPackages != null)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Order Count</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var package in ViewBag.TopPackages)
+                    {
+                        <tr>
+                            <td>@package.Name</td>
+                            <td>@package.Count</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No package order data found.</p>
+        }
+    </div>
+
+    <div class="card">
+        <h2>Recent System Activity</h2>
+
+        @if (ViewBag.RecentLogs != null)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Event</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var log in ViewBag.RecentLogs)
+                    {
+                        <tr>
+                            <td>@log.CreatedAt</td>
+                            <td>@log.EventType</td>
+                            <td>@log.Message</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('orderStatusChart');
+
+    new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+    labels: ['Completed', 'Preparing', 'Ready', 'Delivered'],
+    datasets: [{
+    data: [
+    @ViewBag.CompletedOrders,
+    @ViewBag.PreparingOrders,
+    @ViewBag.ReadyOrders,
+    @ViewBag.DeliveredOrders
+    ]
+    }]
+    },
+    options: {
+    responsive: true,
+    plugins: {
+    legend: {
+    position: 'bottom'
+    }
+    }
+    }
+    });
+</script>

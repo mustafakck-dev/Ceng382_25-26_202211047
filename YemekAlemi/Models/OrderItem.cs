@@ -19,5 +19,6 @@ namespace YemekAlemi.Models
         public string Customization { get; set; }
 
         public double CustomizationPrice { get; set; }
+        public string RestaurantName { get; set; } = "";
     }
 }

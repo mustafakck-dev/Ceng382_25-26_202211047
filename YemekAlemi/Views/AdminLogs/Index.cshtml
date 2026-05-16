@@ -122,18 +122,67 @@ else
     </table>
 }
 
-<div class="pagination">
-    @if (ViewBag.CurrentPage > 1)
-    {
-        <a
-        href="/AdminLogs/Index?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search&eventType=@ViewBag.EventType">Previous</a>
-    }
+@if (ViewBag.TotalPages > 1)
+{
+    <div class="pagination">
 
-    <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages</span>
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a href="/AdminLogs/Index?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search&eventType=@ViewBag.EventType">
+                Previous
+            </a>
+        }
 
-    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-    {
-        <a
-        href="/AdminLogs/Index?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search&eventType=@ViewBag.EventType">Next</a>
-    }
-</div>
+        @{
+            int startPage = Math.Max(1, ViewBag.CurrentPage - 2);
+            int endPage = Math.Min(ViewBag.TotalPages, ViewBag.CurrentPage + 2);
+        }
+
+        @if (startPage > 1)
+        {
+            <a href="/AdminLogs/Index?page=1&search=@ViewBag.Search&eventType=@ViewBag.EventType">
+                1
+            </a>
+
+            @if (startPage > 2)
+            {
+                <span>...</span>
+            }
+        }
+
+        @for (int i = startPage; i <= endPage; i++)
+        {
+            if (i == ViewBag.CurrentPage)
+            {
+                <span class="active-page">@i</span>
+            }
+            else
+            {
+                <a href="/AdminLogs/Index?page=@i&search=@ViewBag.Search&eventType=@ViewBag.EventType">
+                    @i
+                </a>
+            }
+        }
+
+        @if (endPage < ViewBag.TotalPages)
+        {
+            @if (endPage < ViewBag.TotalPages - 1)
+            {
+                <span>...</span>
+            }
+
+            <a href="/AdminLogs/Index?page=@ViewBag.TotalPages&search=@ViewBag.Search&eventType=@ViewBag.EventType">
+                @ViewBag.TotalPages
+            </a>
+        }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a href="/AdminLogs/Index?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search&eventType=@ViewBag.EventType">
+                Next
+            </a>
+        }
+
+    </div>
+
+}

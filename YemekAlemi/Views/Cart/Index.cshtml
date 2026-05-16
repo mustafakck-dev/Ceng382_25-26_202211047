@@ -1,77 +1,141 @@
 @model List<YemekAlemi.Models.CartItem>
 
 @{
-    ViewData["Title"] = "Your Cart";
+    ViewData["Title"] = "Your Catering Cart";
 }
 
 <div class="section-header">
-    <h1>Your Cart</h1>
-    <p>Review your selected meals before completing your order.</p>
+
+    <h1>Your Catering Cart</h1>
+
+    <p>
+        Review your selected catering packages before completing your order.
+    </p>
+
 </div>
 
 @if (Model == null || !Model.Any())
 {
     <div class="empty-box">
-        <h2>Your cart is empty</h2>
-        <p>Add some delicious meals from the menu.</p>
-        <a class="btn-main" href="/Home/Index">Back to Menus</a>
+
+        <h2>Your catering cart is empty</h2>
+
+        <p>
+            Add catering packages from available catering companies.
+        </p>
+
+        <a class="btn-main" href="/Home/Index">
+            Back to Catering Companies
+        </a>
+
     </div>
 }
 else
 {
     <div class="cart-card">
+
         <table>
+
             <thead>
                 <tr>
-                    <th>Menu</th>
-                    <th>Base Price</th>
+                    <th>Package</th>
+                    <th>Base Price Per Guest</th>
                     <th>Customization</th>
                     <th>Customization Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Actions</th>
+                    <th>Per Guest Total</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
+
                 @foreach (var item in Model)
                 {
                     <tr>
+
                         <td>@item.Name</td>
+
                         <td>@item.Price ₺</td>
+
                         <td>@item.Customization</td>
+
                         <td>@item.CustomizationPrice ₺</td>
-                        <td>@item.Quantity</td>
-                        <td>@((item.Price + item.CustomizationPrice) * item.Quantity) ₺</td>
+
                         <td>
-                            <a class="mini-link"
-                                   href="/Cart/Increase?foodId=@item.FoodId&customization=@Uri.EscapeDataString(item.Customization ?? "No customization")">
-                                +
-                            </a>
+                            @(item.Price + item.CustomizationPrice) ₺
+                        </td>
 
-                            <a class="mini-link"
-                                   href="/Cart/Decrease?foodId=@item.FoodId&customization=@Uri.EscapeDataString(item.Customization ?? "No customization")">
-                                -
-                            </a>
-
+                        <td>
                             <a class="danger-link"
                                    href="/Cart/Remove?foodId=@item.FoodId&customization=@Uri.EscapeDataString(item.Customization ?? "No customization")">
-                                Remove
+                                Remove Package
                             </a>
                         </td>
+
                     </tr>
                 }
+
             </tbody>
+
         </table>
 
         <div class="cart-summary">
-            <h2>Total Price: @Model.Sum(x => (x.Price + x.CustomizationPrice) * x.Quantity) ₺</h2>
+
+            <h2>
+                Per Guest Package Total:
+                @Model.Sum(x => x.Price + x.CustomizationPrice) ₺
+            </h2>
+
+            <p>
+                Final catering cost will be calculated according to the guest count.
+            </p>
+
+            <form asp-controller="Payment" asp-action="Index" method="get" class="catering-details-form">
+
+                <h2>Catering Order Details</h2>
+
+                <label>Guest Count</label>
+                <input type="number" name="guestCount" placeholder="Example: 50" min="1" required />
+
+                <label>Event Type</label>
+                <select name="eventType" required>
+                    <option value="">Select event type</option>
+                    <option value="Corporate Meeting">Corporate Meeting</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Campus Event">Campus Event</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Seminar">Seminar</option>
+                    <option value="Conference">Conference</option>
+                    <option value="Graduation Event">Graduation Event</option>
+                </select>
+
+                <label>Event Date and Time</label>
+                <input type="datetime-local" name="eventDate" required />
+
+                <label>Event Address</label>
+                <input type="text" name="eventAddress" placeholder="Example: Çankaya, Ankara" required />
+
+                <label>Special Request</label>
+                <textarea name="specialRequest"
+                          placeholder="Example: vegetarian options, no onion, extra drinks..."></textarea>
+
+                <button type="submit">
+                    Proceed to Payment
+                </button>
+
+            </form>
 
             <div class="cart-actions">
-                <a class="btn-secondary" href="/Home/Index">Continue Shopping</a>
-                <a class="btn-danger" href="/Cart/Clear">Clear Cart</a>
-                <a class="btn-main" href="/Payment/Index">Proceed to Payment</a>
+                <a class="btn-secondary" href="/Home/Index">
+                    Continue Browsing
+                </a>
+
+                <a class="btn-danger" href="/Cart/Clear">
+                    Clear Cart
+                </a>
             </div>
+
         </div>
+
     </div>
 }

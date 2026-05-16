@@ -1,39 +1,31 @@
 @model YemekAlemi.Models.Food
 
 @{
-    ViewData["Title"] = "Edit Menu";
+    ViewData["Title"] = "Edit Catering Package";
 }
 
 <div class="auth-card">
 
-    <h1>Edit Menu</h1>
+    <h1>Edit Catering Package</h1>
 
     <form asp-action="Edit" method="post">
 
         <input type="hidden" asp-for="Id" />
 
-        <label>Name</label>
+        <label>Package Name</label>
         <input asp-for="Name" />
 
-        <label>Description</label>
+        <label>Package Description</label>
         <textarea asp-for="Description"></textarea>
 
-        <label>Price</label>
+        <label>Package Contents</label>
+        <textarea asp-for="PackageContents"
+                  placeholder="Example: grilled chicken, rice, salad, dessert, beverages..."></textarea>
+
+        <label>Price Per Guest</label>
         <input asp-for="Price" />
 
-        <label>Restaurant Name</label>
-        <input asp-for="RestaurantName" />
-
-        <label>Address</label>
-        <input asp-for="Address" />
-
-        <label>Latitude</label>
-        <input asp-for="Latitude" />
-
-        <label>Longitude</label>
-        <input asp-for="Longitude" />
-
-        <label>Image URL</label>
+        <label>Package Image URL</label>
         <input asp-for="ImageUrl" />
 
         <button type="submit">

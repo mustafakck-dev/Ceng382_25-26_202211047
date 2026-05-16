@@ -15,45 +15,105 @@ namespace YemekAlemi.Controllers
         private readonly LogService _logService;
         private readonly EmailService _emailService;
 
-        public PaymentController(AppDbContext context, LogService logService, EmailService emailService)
+        public PaymentController(
+            AppDbContext context,
+            LogService logService,
+            EmailService emailService)
         {
             _context = context;
             _logService = logService;
             _emailService = emailService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(
+            int guestCount,
+            string eventType,
+            DateTime? eventDate,
+            string eventAddress,
+            string? specialRequest)
         {
-            var cart = SessionHelper.GetObject<List<CartItem>>(HttpContext.Session, "Cart");
+            var cart =
+                SessionHelper.GetObject<List<CartItem>>(HttpContext.Session, "Cart");
 
             if (cart == null || !cart.Any())
             {
                 return RedirectToAction("Index", "Cart");
             }
+
+            HttpContext.Session.SetInt32("GuestCount", guestCount);
+            HttpContext.Session.SetString("EventType", eventType ?? "");
+            HttpContext.Session.SetString("EventAddress", eventAddress ?? "");
+            HttpContext.Session.SetString("SpecialRequest", specialRequest ?? "");
+
+            if (eventDate.HasValue)
+            {
+                HttpContext.Session.SetString(
+                    "EventDate",
+                    eventDate.Value.ToString("o"));
+            }
+
+            ViewBag.GuestCount = guestCount;
+            ViewBag.EventType = eventType;
+            ViewBag.EventDate = eventDate;
+            ViewBag.EventAddress = eventAddress;
+            ViewBag.SpecialRequest = specialRequest;
 
             return View(cart);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CompletePayment()
         {
-            var cart = SessionHelper.GetObject<List<CartItem>>(HttpContext.Session, "Cart");
+            var cart =
+                SessionHelper.GetObject<List<CartItem>>(HttpContext.Session, "Cart");
 
             if (cart == null || !cart.Any())
             {
                 return RedirectToAction("Index", "Cart");
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var guestCount =
+                HttpContext.Session.GetInt32("GuestCount") ?? 1;
 
             var order = new Order
             {
-                UserId = userId,
-                TotalPrice = cart.Sum(x => x.TotalPrice),
+                UserId = userId ?? "",
+
+                TotalPrice =
+                    cart.Sum(x =>
+                        ((x.Price + x.CustomizationPrice) * x.Quantity)
+                        * guestCount),
+
                 Status = "Completed",
+
                 CreatedAt = DateTime.Now,
+
+                GuestCount = guestCount,
+
+                EventType =
+                    HttpContext.Session.GetString("EventType") ?? "",
+
+                EventAddress =
+                    HttpContext.Session.GetString("EventAddress") ?? "",
+
+                SpecialRequest =
+                    HttpContext.Session.GetString("SpecialRequest") ?? "",
+
                 Items = new List<OrderItem>()
             };
+
+            var eventDateString =
+                HttpContext.Session.GetString("EventDate");
+
+            if (!string.IsNullOrEmpty(eventDateString))
+            {
+                order.EventDate =
+                    DateTime.Parse(eventDateString);
+            }
 
             foreach (var item in cart)
             {
@@ -62,84 +122,141 @@ namespace YemekAlemi.Controllers
                     FoodId = item.FoodId,
                     Name = item.Name,
                     Price = item.Price,
+                    RestaurantName =
+    _context.Foods.FirstOrDefault(f => f.Id == item.FoodId)?.RestaurantName ?? "",
                     Quantity = item.Quantity,
-                    Customization = string.IsNullOrEmpty(item.Customization) ? "No customization" : item.Customization,
+                    Customization = string.IsNullOrEmpty(item.Customization)
+                        ? "No customization"
+                        : item.Customization,
                     CustomizationPrice = item.CustomizationPrice
                 });
             }
 
             _context.Orders.Add(order);
             _context.SaveChanges();
+
             _logService.AddLog(
-          "Payment",
-          $"Payment completed. OrderId: {order.Id}, Total: {order.TotalPrice}",
-          userId,
-          User.Identity?.Name
-        );
+                "Payment",
+                $"Catering payment completed. OrderId: {order.Id}, Guests: {order.GuestCount}, Total: {order.TotalPrice}",
+                userId,
+                User.Identity?.Name
+            );
+
             _logService.AddLog(
-        "Order",
-        $"Order created successfully. OrderId: {order.Id}",
-        userId,
-        User.Identity?.Name
-    );
-            var emailBody = $"Your order has been completed successfully.\n\n" +
-                        $"Order ID: {order.Id}\n" +
-                        $"Total Price: {order.TotalPrice} ₺\n" +
-                        $"Status: {order.Status}\n" +
-                        $"Order Time: {order.CreatedAt}\n\n" +
-                        $"Items:\n";
+                "Order",
+                $"Catering order created successfully. OrderId: {order.Id}, EventType: {order.EventType}",
+                userId,
+                User.Identity?.Name
+            );
+
+            var customerEmailBody =
+                $"Your catering order has been completed successfully.\n\n" +
+                $"Order ID: {order.Id}\n" +
+                $"Guest Count: {order.GuestCount}\n" +
+                $"Event Type: {order.EventType}\n" +
+                $"Event Date: {order.EventDate}\n" +
+                $"Event Address: {order.EventAddress}\n" +
+                $"Special Request: {order.SpecialRequest}\n" +
+                $"Total Price: {order.TotalPrice} ₺\n" +
+                $"Status: {order.Status}\n" +
+                $"Order Time: {order.CreatedAt}\n\n" +
+                $"Selected Catering Packages:\n";
 
             foreach (var item in order.Items)
             {
-                emailBody += $"- {item.Name} x {item.Quantity}, Customization: {item.Customization}, Price: {item.Price} ₺\n";
+                customerEmailBody +=
+                    $"- {item.Name} x {item.Quantity}, " +
+                    $"Customization: {item.Customization}, " +
+                    $"Per Guest Price: {item.Price + item.CustomizationPrice} ₺\n";
             }
 
             _emailService.SendEmail(
                 User.Identity?.Name ?? "unknown@email.com",
-                $"Order Confirmation - Order #{order.Id}",
-                emailBody,
+                $"Catering Order Confirmation - Order #{order.Id}",
+                customerEmailBody,
                 userId
             );
-            var restaurantNames = order.Items
-    .Select(i =>
-        _context.Foods
-            .Where(f => f.Id == i.FoodId)
-            .Select(f => f.RestaurantName)
-            .FirstOrDefault()
-    )
-    .Where(r => !string.IsNullOrEmpty(r))
-    .Distinct()
-    .ToList();
 
-            foreach (var restaurantName in restaurantNames)
+            _logService.AddLog(
+                "Email",
+                $"Customer confirmation email sent to {User.Identity?.Name}. OrderId: {order.Id}",
+                userId,
+                User.Identity?.Name
+            );
+
+            var catererEmails = cart
+                .Select(item =>
+                    _context.Foods
+                        .FirstOrDefault(f => f.Id == item.FoodId)?
+                        .CatererEmail)
+                .Where(email => !string.IsNullOrWhiteSpace(email))
+                .Distinct()
+                .ToList();
+
+            foreach (var catererEmail in catererEmails)
             {
-                var catererEmail = $"{restaurantName.Replace(" ", "").ToLower()}@yemekalemi.com";
-
                 var catererBody =
-                    $"A new order has been placed for your restaurant.\n\n" +
-                    $"Restaurant: {restaurantName}\n" +
+                    $"A new catering order has been received.\n\n" +
                     $"Order ID: {order.Id}\n" +
-                    $"Customer: {User.Identity?.Name}\n" +
-                    $"Total Price: {order.TotalPrice} ₺\n" +
-                    $"Order Time: {order.CreatedAt}\n\n" +
-                    $"Items:\n";
+                    $"Customer Email: {User.Identity?.Name}\n" +
+                    $"Guest Count: {order.GuestCount}\n" +
+                    $"Event Type: {order.EventType}\n" +
+                    $"Event Date: {order.EventDate}\n" +
+                    $"Event Address: {order.EventAddress}\n" +
+                    $"Special Request: {order.SpecialRequest}\n" +
+                    $"Total Price: {order.TotalPrice} ₺\n\n" +
+                    $"Ordered Catering Packages:\n";
 
                 foreach (var item in order.Items)
                 {
                     catererBody +=
-                        $"- {item.Name} x {item.Quantity}, Customization: {item.Customization}, Price: {item.Price} ₺\n";
+                        $"- {item.Name} x {item.Quantity}, " +
+                        $"Customization: {item.Customization}, " +
+                        $"Per Guest Price: {item.Price + item.CustomizationPrice} ₺\n";
                 }
 
                 _emailService.SendEmail(
-                    catererEmail,
-                    $"New Order Received - Order #{order.Id}",
+                    catererEmail!,
+                    $"New Catering Order Received - Order #{order.Id}",
                     catererBody,
                     userId
                 );
+
+                _logService.AddLog(
+                    "Email",
+                    $"Caterer notification email sent to {catererEmail}. OrderId: {order.Id}",
+                    userId,
+                    User.Identity?.Name
+                );
             }
 
+            _emailService.SendEmail(
+                "mkucuk202@gmail.com",
+                $"Admin Notification - New Catering Order #{order.Id}",
+                $"A new catering order was completed.\n\n" +
+                $"Order ID: {order.Id}\n" +
+                $"Customer: {User.Identity?.Name}\n" +
+                $"Guest Count: {order.GuestCount}\n" +
+                $"Event Type: {order.EventType}\n" +
+                $"Event Date: {order.EventDate}\n" +
+                $"Event Address: {order.EventAddress}\n" +
+                $"Total Price: {order.TotalPrice} ₺",
+                userId
+            );
+
+            _logService.AddLog(
+                "Email",
+                $"Admin notification email sent for OrderId: {order.Id}",
+                userId,
+                User.Identity?.Name
+            );
 
             HttpContext.Session.Remove("Cart");
+            HttpContext.Session.Remove("GuestCount");
+            HttpContext.Session.Remove("EventType");
+            HttpContext.Session.Remove("EventDate");
+            HttpContext.Session.Remove("EventAddress");
+            HttpContext.Session.Remove("SpecialRequest");
 
             return RedirectToAction("Success", new { orderId = order.Id });
         }

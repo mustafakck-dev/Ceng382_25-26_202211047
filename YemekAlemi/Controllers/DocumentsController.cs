@@ -12,11 +12,16 @@ namespace YemekAlemi.Controllers
     {
         private readonly AppDbContext _context;
         private readonly LogService _logService;
+        private readonly PdfService _pdfService;
 
-        public DocumentsController(AppDbContext context, LogService logService)
+        public DocumentsController(
+            AppDbContext context,
+            LogService logService,
+            PdfService pdfService)
         {
             _context = context;
             _logService = logService;
+            _pdfService = pdfService;
         }
 
         public IActionResult Receipt(int orderId)
@@ -63,6 +68,64 @@ namespace YemekAlemi.Controllers
             );
 
             return View(order);
+        }
+
+        public IActionResult DownloadReceiptPdf(int orderId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var order = _context.Orders
+                .Include(o => o.Items)
+                .FirstOrDefault(o => o.Id == orderId && o.UserId == userId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            var pdfBytes = _pdfService.GenerateReceiptPdf(order);
+
+            _logService.AddLog(
+                "Document",
+                $"Receipt PDF downloaded for OrderId: {order.Id}",
+                userId,
+                User.Identity?.Name
+            );
+
+            return File(
+                pdfBytes,
+                "application/pdf",
+                $"Receipt_Order_{order.Id}.pdf"
+            );
+        }
+
+        public IActionResult DownloadAgreementPdf(int orderId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var order = _context.Orders
+                .Include(o => o.Items)
+                .FirstOrDefault(o => o.Id == orderId && o.UserId == userId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            var pdfBytes = _pdfService.GenerateAgreementPdf(order);
+
+            _logService.AddLog(
+                "Document",
+                $"Agreement PDF downloaded for OrderId: {order.Id}",
+                userId,
+                User.Identity?.Name
+            );
+
+            return File(
+                pdfBytes,
+                "application/pdf",
+                $"Agreement_Order_{order.Id}.pdf"
+            );
         }
     }
 }

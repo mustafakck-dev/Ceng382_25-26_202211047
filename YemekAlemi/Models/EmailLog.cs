@@ -11,5 +11,6 @@ namespace YemekAlemi.Models
         public string Body { get; set; } = string.Empty;
 
         public DateTime SentAt { get; set; }
+        public string? UserId { get; set; }
     }
 }

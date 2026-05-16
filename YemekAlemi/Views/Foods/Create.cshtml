@@ -1,31 +1,43 @@
 @model YemekAlemi.Models.Food
 
-<h2>Create Menu Item</h2>
+@{
+    ViewData["Title"] = "Create Catering Package";
+}
+
+<div class="section-header">
+    <h1>Create Catering Package</h1>
+    <p>Add a new package for your catering company.</p>
+</div>
+
+<div class="card">
+    <h2>Your Catering Company</h2>
+
+    <p><strong>Company:</strong> @ViewBag.CompanyName</p>
+    <p><strong>Address:</strong> @ViewBag.CompanyAddress</p>
+</div>
+
+<br />
 
 <form asp-action="Create" method="post">
-    <label>Name</label>
-    <input asp-for="Name" />
 
-    <label>Price</label>
-    <input asp-for="Price" />
+    <label>Package Name</label>
+    <input asp-for="Name" placeholder="Example: Corporate Lunch Package" />
 
-    <label>Description</label>
-    <textarea asp-for="Description"></textarea>
+    <label>Package Price Per Guest</label>
+    <input asp-for="Price" placeholder="Example: 180" />
 
-    <label>Restaurant Name</label>
-    <input asp-for="RestaurantName" placeholder="Example: Dominos" />
+    <label>Package Description</label>
+    <textarea asp-for="Description" placeholder="Short description of the catering package..."></textarea>
 
-    <label>Address</label>
-    <input asp-for="Address" placeholder="Example: Kızılay, Ankara" />
+    <label>Package Contents</label>
+    <textarea asp-for="PackageContents"
+              placeholder="Example: Grilled chicken, rice, salad, dessert, beverages..."></textarea>
 
-    <label>Latitude</label>
-    <input asp-for="Latitude" placeholder="Example: 39.9208" />
+    <label>Package Image URL</label>
+    <input asp-for="ImageUrl" placeholder="Example: https://images.unsplash.com/..." />
 
-    <label>Longitude</label>
-    <input asp-for="Longitude" placeholder="Example: 32.8541" />
+    <button type="submit">
+        Save Catering Package
+    </button>
 
-    <label>Image URL</label>
-    <input asp-for="ImageUrl" placeholder="Example: https://images.unsplash.com/photo-1513104890138-7c749659a591" />
-
-    <button type="submit">Save</button>
 </form>

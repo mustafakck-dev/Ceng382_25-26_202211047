@@ -1,46 +1,137 @@
 @model YemekAlemi.Models.Order
 
 @{
-    ViewData["Title"] = "Receipt";
+    ViewData["Title"] = "Catering Receipt";
 }
 
 <div class="document-card">
-    <h1>YemekAlemi Receipt</h1>
 
+    <h1>YemekAlemi Catering Receipt</h1>
+
+    <p>
+        This receipt confirms that the catering order payment simulation
+        has been completed successfully.
+    </p>
+
+    <hr />
+
+    <h2>Receipt Information</h2>
+
+    <p><strong>Receipt No:</strong> RCPT-@Model.Id</p>
     <p><strong>Order ID:</strong> @Model.Id</p>
-    <p><strong>User ID:</strong> @Model.UserId</p>
+    <p><strong>Customer/User ID:</strong> @Model.UserId</p>
     <p><strong>Status:</strong> @Model.Status</p>
     <p><strong>Purchase Time:</strong> @Model.CreatedAt</p>
 
     <hr />
 
-    <h2>Ordered Items</h2>
+    <h2>Catering Event Details</h2>
+
+    <p><strong>Guest Count:</strong> @Model.GuestCount</p>
+    <p><strong>Event Type:</strong> @Model.EventType</p>
+    <p><strong>Event Date:</strong> @Model.EventDate</p>
+    <p><strong>Event Address:</strong> @Model.EventAddress</p>
+
+    @if (!string.IsNullOrWhiteSpace(Model.SpecialRequest))
+    {
+        <p><strong>Special Request:</strong> @Model.SpecialRequest</p>
+    }
+    else
+    {
+        <p><strong>Special Request:</strong> No special request provided.</p>
+    }
+
+    <hr />
+
+    <h2>Selected Catering Packages</h2>
 
     <table>
         <thead>
             <tr>
-                <th>Food</th>
-                <th>Quantity</th>
+                <th>Package</th>
                 <th>Customization</th>
-                <th>Price</th>
-                <th>Customization Price</th>
+                <th>Per Guest Price</th>
+                <th>Guest Count</th>
+                <th>Line Total</th>
             </tr>
         </thead>
+
         <tbody>
+
             @foreach (var item in Model.Items)
             {
+                var perGuestPrice =
+                    item.Price + item.CustomizationPrice;
+
+                var lineTotal =
+                    perGuestPrice * Model.GuestCount;
+
                 <tr>
+
                     <td>@item.Name</td>
-                    <td>@item.Quantity</td>
+
                     <td>@item.Customization</td>
-                    <td>@item.Price ₺</td>
-                    <td>@item.CustomizationPrice ₺</td>
+
+                    <td>@perGuestPrice ₺</td>
+
+                    <td>@Model.GuestCount</td>
+
+                    <td>@lineTotal ₺</td>
+
                 </tr>
             }
+
         </tbody>
     </table>
 
-    <h2>Total Price: @Model.TotalPrice ₺</h2>
+    <hr />
 
-    <button onclick="window.print()">Print / Save as PDF</button>
+    <div class="receipt-total-box">
+
+        <h2>
+            Total Catering Cost:
+            @Model.TotalPrice ₺
+        </h2>
+
+        <p>
+            Final pricing was calculated according to the selected
+            catering packages, guest count and customization services.
+        </p>
+
+    </div>
+
+    <hr />
+
+    <h2>Terms</h2>
+
+    <ul>
+        <li>
+            This document is generated automatically by the YemekAlemi
+            Catering Management System.
+        </li>
+
+        <li>
+            This is a simulated catering payment receipt created for
+            academic project purposes.
+        </li>
+
+        <li>
+            Catering preparation and delivery scheduling are based on
+            the submitted event information.
+        </li>
+
+        <li>
+            Additional catering requests may affect the final preparation process.
+        </li>
+    </ul>
+
+    <button onclick="window.print()" class="btn-main">
+        Print / Save as PDF
+    </button>
+    <a class="btn-main" href="/Documents/DownloadReceiptPdf?orderId=@Model.Id">
+
+        Download Receipt PDF
+
+    </a>
+
 </div>

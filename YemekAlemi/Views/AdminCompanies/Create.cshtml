@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Create Catering Company";
+}
+
+<div class="section-header">
+    <h1>Create Catering Company</h1>
+    <p>Admin can add a new catering company and assign it to a caterer account.</p>
+</div>
+
+@if (ViewBag.Error != null)
+{
+    <div class="empty-box">
+        <p>@ViewBag.Error</p>
+    </div>
+}
+
+<form asp-controller="AdminCompanies" asp-action="Create" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <label>Catering Company Name</label>
+    <input type="text" name="companyName" placeholder="Example: Elite Catering" required />
+
+    <label>Caterer Owner Email</label>
+    <input type="email" name="ownerEmail" placeholder="Example: elite.catering.demo@gmail.com" required />
+
+    <label>Company Address</label>
+    <input type="text" name="address" placeholder="Example: Çankaya, Ankara" required />
+
+    <label>Latitude</label>
+    <input type="text" name="latitude" placeholder="Example: 39.9208" required />
+
+    <label>Longitude</label>
+    <input type="text" name="longitude" placeholder="Example: 32.8541" required />
+
+    <label>Company Description</label>
+    <textarea name="description" placeholder="Describe this catering company..." required></textarea>
+
+    <label>Company Image URL</label>
+    <input type="text" name="imageUrl" placeholder="Example: https://images.unsplash.com/..." />
+
+    <button type="submit">
+        Create Catering Company
+    </button>
+
+</form>

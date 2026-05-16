@@ -6,7 +6,7 @@ using YemekAlemi.Models;
 
 namespace YemekAlemi.Controllers
 {
-    [Authorize(Roles = "Caretaker")]
+    [Authorize(Roles = "Caterer")]
     public class FoodsController : Controller
     {
         private readonly AppDbContext _context;
@@ -16,16 +16,46 @@ namespace YemekAlemi.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            var foods = _context.Foods
-    .Include(f => f.CustomizationOptions)
-    .ToList();
+            var catererEmail = User.Identity?.Name;
+
+            int pageSize = 5;
+
+            var query = _context.Foods
+                .Include(f => f.CustomizationOptions)
+                .Where(f => f.CatererEmail == catererEmail)
+                .OrderBy(f => f.RestaurantName)
+                .ThenBy(f => f.Name);
+
+            int totalItems = query.Count();
+
+            var foods = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
             return View(foods);
         }
 
         public IActionResult Create()
         {
+            var catererEmail = User.Identity?.Name;
+
+            var company = _context.Foods
+                .FirstOrDefault(x => x.CatererEmail == catererEmail);
+
+            if (company != null)
+            {
+                ViewBag.CompanyName = company.RestaurantName;
+                ViewBag.CompanyAddress = company.Address;
+                ViewBag.Latitude = company.Latitude;
+                ViewBag.Longitude = company.Longitude;
+            }
+
             return View();
         }
 
@@ -33,15 +63,31 @@ namespace YemekAlemi.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Food food)
         {
+            var catererEmail = User.Identity?.Name;
+
+            var company = _context.Foods
+                .FirstOrDefault(x => x.CatererEmail == catererEmail);
+
+            if (company == null)
+            {
+                return RedirectToAction("Index", "Foods");
+            }
+
             if (ModelState.IsValid)
             {
+                food.CatererEmail = catererEmail;
+                food.RestaurantName = company.RestaurantName;
+                food.Address = company.Address;
+                food.Latitude = company.Latitude;
+                food.Longitude = company.Longitude;
+
                 _context.Foods.Add(food);
 
                 _context.AppLogs.Add(new AppLog
                 {
                     EventType = "Menu",
-                    Message = $"{food.Name} menu item created.",
-                    UserEmail = User.Identity?.Name,
+                    Message = $"{food.Name} catering package created by {catererEmail}.",
+                    UserEmail = catererEmail,
                     CreatedAt = DateTime.Now
                 });
 
@@ -55,7 +101,12 @@ namespace YemekAlemi.Controllers
 
         public IActionResult Edit(int id)
         {
-            var food = _context.Foods.FirstOrDefault(f => f.Id == id);
+            var currentCatererEmail = User.Identity?.Name;
+
+            var food = _context.Foods
+                .FirstOrDefault(f =>
+                    f.Id == id &&
+                    f.CatererEmail == currentCatererEmail);
 
             if (food == null)
             {
@@ -69,15 +120,35 @@ namespace YemekAlemi.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Food food)
         {
+            var currentCatererEmail = User.Identity?.Name;
+
+            var existingFood = _context.Foods
+                .FirstOrDefault(f =>
+                    f.Id == food.Id &&
+                    f.CatererEmail == currentCatererEmail);
+
+            if (existingFood == null)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Foods.Update(food);
+                existingFood.Name = food.Name;
+                existingFood.Price = food.Price;
+                existingFood.Description = food.Description;
+                existingFood.PackageContents = food.PackageContents;
+                existingFood.RestaurantName = food.RestaurantName;
+                existingFood.Address = food.Address;
+                existingFood.Latitude = food.Latitude;
+                existingFood.Longitude = food.Longitude;
+                existingFood.ImageUrl = food.ImageUrl;
 
                 _context.AppLogs.Add(new AppLog
                 {
                     EventType = "Menu",
-                    Message = $"{food.Name} menu item updated.",
-                    UserEmail = User.Identity?.Name,
+                    Message = $"{existingFood.Name} catering package updated by {currentCatererEmail}.",
+                    UserEmail = currentCatererEmail,
                     CreatedAt = DateTime.Now
                 });
 
@@ -91,7 +162,12 @@ namespace YemekAlemi.Controllers
 
         public IActionResult Delete(int id)
         {
-            var food = _context.Foods.FirstOrDefault(f => f.Id == id);
+            var currentCatererEmail = User.Identity?.Name;
+
+            var food = _context.Foods
+                .FirstOrDefault(f =>
+                    f.Id == id &&
+                    f.CatererEmail == currentCatererEmail);
 
             if (food == null)
             {
@@ -105,7 +181,12 @@ namespace YemekAlemi.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var food = _context.Foods.FirstOrDefault(f => f.Id == id);
+            var currentCatererEmail = User.Identity?.Name;
+
+            var food = _context.Foods
+                .FirstOrDefault(f =>
+                    f.Id == id &&
+                    f.CatererEmail == currentCatererEmail);
 
             if (food == null)
             {
@@ -117,8 +198,8 @@ namespace YemekAlemi.Controllers
             _context.AppLogs.Add(new AppLog
             {
                 EventType = "Menu",
-                Message = $"{food.Name} menu item deleted.",
-                UserEmail = User.Identity?.Name,
+                Message = $"{food.Name} catering package deleted by {currentCatererEmail}.",
+                UserEmail = currentCatererEmail,
                 CreatedAt = DateTime.Now
             });
 

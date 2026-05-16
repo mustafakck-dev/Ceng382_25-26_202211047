@@ -25,5 +25,8 @@ namespace YemekAlemi.Models
         public string? ImageUrl { get; set; }
         public List<CustomizationOption> CustomizationOptions { get; set; }
     = new();
+        public string PackageContents { get; set; } = string.Empty;
+        public string? CatererEmail { get; set; }
     }
+
 }

@@ -18,6 +18,41 @@
 
 </div>
 <div class="card" style="margin-top:40px;">
+    @if (ViewBag.LatestOrder != null)
+    {
+        var order = ViewBag.LatestOrder;
+
+        <div class="dashboard-card">
+
+            <h2>Latest Catering Booking</h2>
+
+            <p>
+                <strong>Event Type:</strong>
+                @order.EventType
+            </p>
+
+            <p>
+                <strong>Guest Count:</strong>
+                @order.GuestCount
+            </p>
+
+            <p>
+                <strong>Event Date:</strong>
+                @order.EventDate
+            </p>
+
+            <p>
+                <strong>Event Address:</strong>
+                @order.EventAddress
+            </p>
+
+            <p>
+                <strong>Total Price:</strong>
+                @order.TotalPrice ₺
+            </p>
+
+        </div>
+    }
     <h2>Recent Activity</h2>
 
     @if (ViewBag.RecentLogs != null)

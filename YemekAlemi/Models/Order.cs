@@ -13,5 +13,14 @@ namespace YemekAlemi.Models
         public DateTime CreatedAt { get; set; }
 
         public List<OrderItem> Items { get; set; }
+        public int GuestCount { get; set; }
+
+        public string EventType { get; set; } = string.Empty;
+
+        public DateTime? EventDate { get; set; }
+
+        public string EventAddress { get; set; } = string.Empty;
+
+        public string SpecialRequest { get; set; } = string.Empty;
     }
 }

@@ -7,18 +7,146 @@
 <div class="dashboard-grid">
 
     <div class="dashboard-card">
-        <h2>Total Menus</h2>
-        <p>@ViewBag.TotalMenus</p>
+        <h2>Total Packages</h2>
+        <p>@ViewBag.TotalPackages</p>
     </div>
 
     <div class="dashboard-card">
-        <h2>Total Ratings</h2>
-        <p>@ViewBag.TotalRatings</p>
+        <h2>Active Orders</h2>
+        <p>@ViewBag.ActiveOrders</p>
     </div>
 
     <div class="dashboard-card">
-        <h2>Average Rating</h2>
+        <h2>Monthly Revenue</h2>
+        <p>@ViewBag.MonthlyRevenue ₺</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h2>Average Caterer Rating</h2>
         <p>@ViewBag.AverageRating</p>
     </div>
+
+</div>
+
+<div class="dashboard-section">
+
+    <div class="card">
+        <h2>Catering Management</h2>
+
+        <p>
+            Manage catering packages, incoming orders, prices, images and customization options.
+        </p>
+
+        <br />
+
+        <div class="dashboard-buttons">
+
+            <a class="btn-main" href="/Foods/Index">
+                Manage Catering Packages
+            </a>
+
+            <a class="btn-secondary" href="/Foods/Create">
+                Create New Package
+            </a>
+
+            <a class="btn-secondary" href="/CatererOrders">
+                View Incoming Orders
+            </a>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Most Popular Package</h2>
+
+        @if (ViewBag.MostPopularPackage != null)
+        {
+            <p>
+                <strong>@ViewBag.MostPopularPackage.Name</strong>
+            </p>
+
+            <p>
+                Ordered @ViewBag.MostPopularPackage.Count time(s).
+            </p>
+        }
+        else
+        {
+            <p>No package order data yet.</p>
+        }
+    </div>
+
+</div>
+
+<div class="card" style="margin-top:40px;">
+
+    <h2>Recent Catering Orders</h2>
+
+    @if (ViewBag.RecentOrders != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Event Type</th>
+                    <th>Guest Count</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var order in ViewBag.RecentOrders)
+                {
+                    <tr>
+                        <td>#@order.Id</td>
+                        <td>@order.EventType</td>
+                        <td>@order.GuestCount</td>
+                        <td>@order.Status</td>
+                        <td>@order.TotalPrice ₺</td>
+                        <td>@order.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No recent catering orders found.</p>
+    }
+
+</div>
+
+<div class="card" style="margin-top:40px;">
+
+    <h2>Recent Package Activity</h2>
+
+    @if (ViewBag.RecentMenuLogs != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Event</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var log in ViewBag.RecentMenuLogs)
+                {
+                    <tr>
+                        <td>@log.CreatedAt</td>
+                        <td>@log.EventType</td>
+                        <td>@log.Message</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No recent package activity found.</p>
+    }
 
 </div>

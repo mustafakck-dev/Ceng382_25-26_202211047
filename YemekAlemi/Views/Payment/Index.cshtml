@@ -1,71 +1,132 @@
 @model List<YemekAlemi.Models.CartItem>
 
 @{
-    ViewData["Title"] = "Payment";
+    ViewData["Title"] = "Catering Payment";
 }
 
 <div class="section-header">
-    <h1>Payment</h1>
-    <p>This is a payment simulation. Do not enter a real card number.</p>
+
+    <h1>Catering Payment</h1>
+
+    <p>
+        This is a catering payment simulation.
+        Do not enter a real card number.
+    </p>
+
 </div>
 
 @if (Model == null || !Model.Any())
 {
     <div class="empty-box">
-        <h2>Your cart is empty</h2>
-        <p>Please add items before payment.</p>
-        <a class="btn-main" href="/Home/Index">Back to Menus</a>
+
+        <h2>Your catering cart is empty</h2>
+
+        <p>
+            Please add catering packages before payment.
+        </p>
+
+        <a class="btn-main" href="/Home/Index">
+            Back to Catering Companies
+        </a>
+
     </div>
 }
 else
 {
     <div class="payment-layout">
+
         <div class="payment-card">
+
             <h2>Card Information</h2>
 
             <form asp-controller="Payment" asp-action="CompletePayment" method="post">
+                @Html.AntiForgeryToken()
+
                 <label>Card Holder Name</label>
+
                 <input type="text" name="cardHolder" placeholder="Example: Mustafa Kucuk" required />
 
                 <label>Card Number</label>
+
                 <input type="text" name="cardNumber" placeholder="1111 2222 3333 4444" required />
 
                 <div class="payment-row">
+
                     <div>
+
                         <label>Expiry Date</label>
+
                         <input type="text" name="expiryDate" placeholder="12/28" required />
+
                     </div>
 
                     <div>
+
                         <label>CVV</label>
+
                         <input type="text" name="cvv" placeholder="123" required />
+
                     </div>
+
                 </div>
 
-                <button type="submit">Simulate Payment</button>
+                <button type="submit">
+                    Simulate Catering Payment
+                </button>
+
             </form>
+
         </div>
 
         <div class="payment-card">
-            <h2>Order Summary</h2>
 
+            <h2>Catering Order Summary</h2>
+
+            <div class="catering-info-box">
+                <h3>Catering Event Details</h3>
+
+                <p><strong>Guest Count:</strong> @ViewBag.GuestCount</p>
+                <p><strong>Event Type:</strong> @ViewBag.EventType</p>
+                <p><strong>Event Date:</strong> @ViewBag.EventDate</p>
+                <p><strong>Event Address:</strong> @ViewBag.EventAddress</p>
+                <p><strong>Special Request:</strong> @ViewBag.SpecialRequest</p>
+            </div>
+            @{
+                int guestCount = ViewBag.GuestCount ?? 1;
+            }
             @foreach (var item in Model)
             {
                 <div class="summary-item">
+
                     <div>
+
                         <strong>@item.Name</strong>
+
                         <p>@item.Customization</p>
+                        <p>
+                            @item.Quantity package(s) × @guestCount guests
+                        </p>
+
                     </div>
 
                     <span>
-                        @((item.Price + item.CustomizationPrice) * item.Quantity) ₺
+                        @(((item.Price + item.CustomizationPrice) * item.Quantity) * guestCount) ₺
                     </span>
+
                 </div>
             }
 
             <hr />
 
-            <h2>Total: @Model.Sum(x => (x.Price + x.CustomizationPrice) * x.Quantity) ₺</h2>
+            <h2>
+                <p>
+                    Pricing is calculated per guest based on selected catering packages.
+                </p>
+                Total Catering Cost:
+                @(Model.Sum(x => (x.Price + x.CustomizationPrice) * x.Quantity) * guestCount) ₺
+            </h2>
+
         </div>
+
     </div>
 }
