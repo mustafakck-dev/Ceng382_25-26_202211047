@@ -7,36 +7,37 @@
 <div class="section-header">
 
     <h1>My Catering Orders</h1>
-    <div class="card">
 
-        <form method="get">
-
-            <label>Search Orders</label>
-
-            <input type="text" name="search" value="@ViewBag.Search"
-                   placeholder="Search order id, event or package..." />
-
-            <br />
-            <br />
-
-            <button type="submit" class="btn-main">
-                Filter Orders
-            </button>
-
-            <a class="btn-secondary" href="/CatererOrders">
-                Clear
-            </a>
-
-        </form>
-
-    </div>
-
-    <br />
     <p>
-        View and update catering orders related to your catering company.
+        View, search, update and communicate about catering orders related to your company.
     </p>
 
 </div>
+
+<div class="card">
+
+    <form method="get">
+
+        <label>Search Orders</label>
+
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="Search order id, event or package..." />
+
+        <br />
+        <br />
+
+        <button type="submit" class="btn-main">
+            Filter Orders
+        </button>
+
+        <a class="btn-secondary" href="/CatererOrders">
+            Clear
+        </a>
+
+    </form>
+
+</div>
+
+<br />
 
 @if (Model == null || !Model.Any())
 {
@@ -59,6 +60,7 @@ else
                 <th>Total Price</th>
                 <th>Status</th>
                 <th>Update Status</th>
+                <th>Messages</th>
                 <th>Order Date</th>
                 <th>Packages</th>
             </tr>
@@ -119,11 +121,16 @@ else
                     </td>
 
                     <td>
+                        <a class="btn-main" href="/Messages/Room?orderId=@order.Id">
+                            Live Call
+                        </a>
+                    </td>
+
+                    <td>
                         @order.CreatedAt.ToString("dd.MM.yyyy HH:mm")
                     </td>
 
                     <td>
-
                         <ul class="customization-list">
 
                             @foreach (var item in order.Items)
@@ -138,7 +145,6 @@ else
                             }
 
                         </ul>
-
                     </td>
 
                 </tr>
@@ -147,4 +153,39 @@ else
         </tbody>
 
     </table>
+}
+
+@if (ViewBag.TotalPages > 1)
+{
+    <div class="pagination">
+
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a href="/CatererOrders?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search">
+                Previous
+            </a>
+        }
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            if (i == ViewBag.CurrentPage)
+            {
+                <span class="active-page">@i</span>
+            }
+            else
+            {
+                <a href="/CatererOrders?page=@i&search=@ViewBag.Search">
+                    @i
+                </a>
+            }
+        }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a href="/CatererOrders?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search">
+                Next
+            </a>
+        }
+
+    </div>
 }

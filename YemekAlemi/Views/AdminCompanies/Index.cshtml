@@ -1,0 +1,59 @@
+@model List<YemekAlemi.Models.CateringCompany>
+
+@{
+    ViewData["Title"] = "Manage Companies";
+}
+
+<h1>Manage Companies</h1>
+
+<a class="btn-main" href="/AdminCompanies/Create">
+    Create New Company
+</a>
+
+<br />
+<br />
+
+@if (Model == null || !Model.Any())
+{
+    <div class="empty-box">
+        <h2>No catering companies found</h2>
+    </div>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Owner Email</th>
+                <th>Address</th>
+                <th>Created At</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var company in Model)
+            {
+                <tr>
+                    <td>@company.CompanyName</td>
+                    <td>@company.OwnerEmail</td>
+                    <td>@company.Address</td>
+                    <td>@company.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>
+                        <form asp-controller="AdminCompanies" asp-action="Delete" method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="id" value="@company.Id" />
+
+                            <button type="submit" class="btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

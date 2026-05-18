@@ -1,0 +1,80 @@
+@model List<YemekAlemi.Models.OrderMessage>
+
+@{
+    ViewData["Title"] = "Live Call";
+
+    var currentEmail = ViewBag.CurrentEmail as string;
+    var order = ViewBag.Order;
+}
+<meta http-equiv="refresh" content="15">
+
+<div class="section-header">
+
+   <h1>Live Call</h1>
+
+    <p>
+       Live communication panel for Order #@order.Id
+    </p>
+
+</div>
+
+<div class="chat-container">
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-box">
+            <p>No messages yet.</p>
+        </div>
+    }
+    else
+    {
+        @foreach (var message in Model)
+        {
+            var isMine =
+                message.SenderEmail == currentEmail;
+
+            <div class="message-row @(isMine ? "mine" : "other")">
+
+                <div class="message-bubble">
+
+                    <div class="message-header">
+                        @message.SenderEmail
+                    </div>
+
+                    <div class="message-text">
+                        @message.MessageText
+                    </div>
+
+                    <div class="message-time">
+                        @message.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+<div class="card">
+
+    <form asp-controller="Messages" asp-action="SendMessage" method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="orderId" value="@order.Id" />
+
+        <label>New Message</label>
+
+        <textarea name="messageText" rows="4" placeholder="Type your message here..."></textarea>
+
+        <br />
+
+        <button type="submit">
+            Send Message
+        </button>
+
+    </form>
+
+</div>

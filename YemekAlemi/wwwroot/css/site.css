@@ -1038,3 +1038,53 @@ table tbody tr:hover {
 .dashboard-buttons a {
   margin: 0 !important;
 }
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.message-row {
+  display: flex;
+}
+
+.message-row.mine {
+  justify-content: flex-end;
+}
+
+.message-row.other {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 14px;
+  border-radius: 18px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  background: white;
+}
+
+.message-row.mine .message-bubble {
+  background: #dff5e8;
+}
+
+.message-header {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #1f6f4a;
+  font-size: 14px;
+}
+
+.message-text {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.message-time {
+  font-size: 12px;
+  color: gray;
+  text-align: right;
+}

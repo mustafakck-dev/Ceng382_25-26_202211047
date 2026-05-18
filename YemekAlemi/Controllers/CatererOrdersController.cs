@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YemekAlemi.Data;
+using YemekAlemi.Models;
 
 namespace YemekAlemi.Controllers
 {
@@ -56,6 +57,43 @@ namespace YemekAlemi.Controllers
                 (int)Math.Ceiling(totalOrders / (double)pageSize);
 
             return View(pagedOrders);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateStatus(int orderId, string status)
+        {
+            var userEmail = User.Identity?.Name;
+
+            var catererFoodIds = _context.Foods
+                .Where(f => f.CatererEmail == userEmail)
+                .Select(f => f.Id)
+                .ToList();
+
+            var order = _context.Orders
+                .Include(o => o.Items)
+                .FirstOrDefault(o =>
+                    o.Id == orderId &&
+                    o.Items.Any(i => catererFoodIds.Contains(i.FoodId)));
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.Status = status;
+
+            _context.AppLogs.Add(new AppLog
+            {
+                EventType = "Order",
+                Message = $"Order #{order.Id} status updated to {status} by {userEmail}.",
+                UserEmail = userEmail,
+                CreatedAt = DateTime.Now
+            });
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

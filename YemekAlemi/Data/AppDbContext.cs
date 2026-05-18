@@ -18,6 +18,8 @@ namespace YemekAlemi.Data
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<EmailLog> EmailLogs { get; set; }
         public DbSet<CustomizationOption> CustomizationOptions { get; set; }
+        public DbSet<OrderMessage> OrderMessages { get; set; }
+        public DbSet<CateringCompany> CateringCompanies { get; set; }
 
     }
 }

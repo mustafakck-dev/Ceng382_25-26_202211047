@@ -6555,11 +6555,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mustafa-Work\\Desktop\\Ceng382_25-26_202211047\\YemekAlemi\\YemekAlemi.csproj",
+      "projectUniqueName": "C:\\Users\\Mustafa-Work\\Desktop\\Ceng382_25-26_202211047\\Yemekalemi\\YemekAlemi.csproj",
       "projectName": "YemekAlemi",
-      "projectPath": "C:\\Users\\Mustafa-Work\\Desktop\\Ceng382_25-26_202211047\\YemekAlemi\\YemekAlemi.csproj",
+      "projectPath": "C:\\Users\\Mustafa-Work\\Desktop\\Ceng382_25-26_202211047\\Yemekalemi\\YemekAlemi.csproj",
       "packagesPath": "C:\\Users\\Mustafa-Work\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mustafa-Work\\Desktop\\Ceng382_25-26_202211047\\YemekAlemi\\obj\\",
+      "outputPath": "C:\\Users\\Mustafa-Work\\Desktop\\Ceng382_25-26_202211047\\Yemekalemi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

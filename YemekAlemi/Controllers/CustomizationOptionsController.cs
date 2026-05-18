@@ -6,7 +6,7 @@ using YemekAlemi.Models;
 
 namespace YemekAlemi.Controllers
 {
-    [Authorize(Roles = "Caretaker")]
+    [Authorize(Roles = "Caterer")]
     public class CustomizationOptionsController : Controller
     {
         private readonly AppDbContext _context;

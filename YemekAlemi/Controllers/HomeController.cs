@@ -112,12 +112,14 @@ public class HomeController : Controller
 
         ViewBag.Districts = new List<string>
 {
-    "Kızılay",
     "Çankaya",
-    "Bahçelievler",
-    "Tunalı Hilmi",
-    "Bilkent",
-    "Çukurambar"
+    "Keçiören",
+    "Yenimahalle",
+    "Etimesgut",
+    "Mamak",
+    "Sincan",
+    "Gölbaşı",
+    "Pursaklar"
 };
 
         ViewBag.MenuRatings = _context.Ratings

@@ -15,6 +15,15 @@ namespace YemekAlemi.Controllers
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+            var companies = _context.CateringCompanies
+                .OrderBy(x => x.CompanyName)
+                .ToList();
+
+            return View(companies);
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -38,8 +47,8 @@ namespace YemekAlemi.Controllers
                 return View();
             }
 
-            bool companyExists = _context.Foods
-                .Any(f => f.RestaurantName == companyName);
+            bool companyExists = _context.CateringCompanies
+                .Any(x => x.CompanyName == companyName);
 
             if (companyExists)
             {
@@ -47,25 +56,23 @@ namespace YemekAlemi.Controllers
                 return View();
             }
 
-            var starterPackage = new Food
+            var company = new CateringCompany
             {
-                Name = "Starter Catering Package",
-                Description = description,
-                PackageContents = "Main dish, side dish, salad, dessert and beverage service",
-                Price = 150,
-                RestaurantName = companyName,
+                CompanyName = companyName,
+                OwnerEmail = ownerEmail,
                 Address = address,
                 Latitude = latitude,
                 Longitude = longitude,
+                Description = description,
                 ImageUrl = imageUrl,
-                CatererEmail = ownerEmail
+                CreatedAt = DateTime.Now
             };
 
-            _context.Foods.Add(starterPackage);
+            _context.CateringCompanies.Add(company);
 
             _context.AppLogs.Add(new AppLog
             {
-                EventType = "Menu",
+                EventType = "Company",
                 Message = $"New catering company created: {companyName}. Owner: {ownerEmail}",
                 UserEmail = User.Identity?.Name,
                 CreatedAt = DateTime.Now
@@ -73,7 +80,39 @@ namespace YemekAlemi.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Index", "AdminCompanies");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            var company = _context.CateringCompanies
+                .FirstOrDefault(x => x.Id == id);
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            var foods = _context.Foods
+                .Where(f => f.RestaurantName == company.CompanyName)
+                .ToList();
+
+            _context.Foods.RemoveRange(foods);
+            _context.CateringCompanies.Remove(company);
+
+            _context.AppLogs.Add(new AppLog
+            {
+                EventType = "Company",
+                Message = $"Catering company deleted: {company.CompanyName}",
+                UserEmail = User.Identity?.Name,
+                CreatedAt = DateTime.Now
+            });
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "AdminCompanies");
         }
     }
 }

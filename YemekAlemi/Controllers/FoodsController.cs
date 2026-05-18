@@ -45,12 +45,12 @@ namespace YemekAlemi.Controllers
         {
             var catererEmail = User.Identity?.Name;
 
-            var company = _context.Foods
-                .FirstOrDefault(x => x.CatererEmail == catererEmail);
+            var company = _context.CateringCompanies
+    .FirstOrDefault(x => x.OwnerEmail == catererEmail);
 
             if (company != null)
             {
-                ViewBag.CompanyName = company.RestaurantName;
+                ViewBag.CompanyName = company.CompanyName;
                 ViewBag.CompanyAddress = company.Address;
                 ViewBag.Latitude = company.Latitude;
                 ViewBag.Longitude = company.Longitude;
@@ -65,8 +65,8 @@ namespace YemekAlemi.Controllers
         {
             var catererEmail = User.Identity?.Name;
 
-            var company = _context.Foods
-                .FirstOrDefault(x => x.CatererEmail == catererEmail);
+            var company = _context.CateringCompanies
+    .FirstOrDefault(x => x.OwnerEmail == catererEmail);
 
             if (company == null)
             {
@@ -76,7 +76,7 @@ namespace YemekAlemi.Controllers
             if (ModelState.IsValid)
             {
                 food.CatererEmail = catererEmail;
-                food.RestaurantName = company.RestaurantName;
+                food.RestaurantName = company.CompanyName;
                 food.Address = company.Address;
                 food.Latitude = company.Latitude;
                 food.Longitude = company.Longitude;

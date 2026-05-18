@@ -35,22 +35,22 @@
                 </a>
 
                 <a href="/Cart/Index">
-                    Catering Cart
+                    Cart
                 </a>
             }
 
             @if (User.IsInRole("Caterer"))
             {
                 <a href="/Foods/Create">
-                    Create Package
+                    New Package
                 </a>
 
                 <a href="/Foods/Index">
-                    Manage Packages
+                    Packages
                 </a>
 
-                <a href="/Ratings/MyCompletedOrders">
-                    Customer Ratings
+                <a href="/CatererOrders">
+                    Incoming Orders
                 </a>
             }
 
@@ -58,6 +58,9 @@
             {
                 <a href="/AdminCompanies/Create">
                     Create Company
+                </a>
+                <a href="/AdminCompanies/Index">
+                    Manage Companies
                 </a>
 
                 <a href="/AdminLogs/Index">

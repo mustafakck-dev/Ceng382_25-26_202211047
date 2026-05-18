@@ -19,301 +19,309 @@ build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v10.0
 build_property.RootNamespace = YemekAlemi
 build_property.RootNamespace = YemekAlemi
-build_property.ProjectDir = C:\Users\Mustafa-Work\Desktop\Ceng382_25-26_202211047\YemekAlemi\
+build_property.ProjectDir = C:\Users\Mustafa-Work\Desktop\Ceng382_25-26_202211047\Yemekalemi\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Mustafa-Work\Desktop\Ceng382_25-26_202211047\YemekAlemi
+build_property.MSBuildProjectDirectory = C:\Users\Mustafa-Work\Desktop\Ceng382_25-26_202211047\Yemekalemi
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/AccessDenied.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ConfirmEmail.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ConfirmEmail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDb25maXJtRW1haWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ConfirmEmailChange.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ConfirmEmailChange.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDb25maXJtRW1haWxDaGFuZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ExternalLogin.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ExternalLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxFeHRlcm5hbExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ForgotPassword.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZENvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Lockout.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Lockout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2Nrb3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/LoginWith2fa.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/LoginWith2fa.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbldpdGgyZmEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/LoginWithRecoveryCode.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/LoginWithRecoveryCode.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbldpdGhSZWNvdmVyeUNvZGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Logout.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcQ2hhbmdlUGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/DeletePersonalData.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/DeletePersonalData.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRGVsZXRlUGVyc29uYWxEYXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/Disable2fa.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/Disable2fa.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRGlzYWJsZTJmYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/DownloadPersonalData.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/DownloadPersonalData.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRG93bmxvYWRQZXJzb25hbERhdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/Email.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/Email.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRW1haWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRW5hYmxlQXV0aGVudGljYXRvci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/ExternalLogins.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/ExternalLogins.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRXh0ZXJuYWxMb2dpbnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/GenerateRecoveryCodes.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/GenerateRecoveryCodes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcR2VuZXJhdGVSZWNvdmVyeUNvZGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/PersonalData.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/PersonalData.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcUGVyc29uYWxEYXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/ResetAuthenticator.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/ResetAuthenticator.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcUmVzZXRBdXRoZW50aWNhdG9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcU2V0UGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/ShowRecoveryCodes.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/ShowRecoveryCodes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcU2hvd1JlY292ZXJ5Q29kZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/TwoFactorAuthentication.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/TwoFactorAuthentication.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcVHdvRmFjdG9yQXV0aGVudGljYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1N0YXR1c01lc3NhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3RlckNvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ResendEmailConfirmation.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ResendEmailConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNlbmRFbWFpbENvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ResetPassword.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/ResetPasswordConfirmation.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/ResetPasswordConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkQ29uZmlybWF0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/VerifyTwoFactor.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/VerifyTwoFactor.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxWZXJpZnlUd29GYWN0b3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/_StatusMessage.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/_StatusMessage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfU3RhdHVzTWVzc2FnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/Error.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/AdminCompanies/Create.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/AdminCompanies/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Db21wYW5pZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/AdminLogs/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/AdminCompanies/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Db21wYW5pZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/AdminLogs/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Mb2dzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Call/Room.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Call/Room.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsbFxSb29tLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Cart/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/CatererOrders/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/CatererOrders/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJlck9yZGVyc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/CustomizationOptions/Create.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/CustomizationOptions/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9taXphdGlvbk9wdGlvbnNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/CustomizationOptions/Delete.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/CustomizationOptions/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9taXphdGlvbk9wdGlvbnNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Dashboard/AdminDashboard.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Dashboard/AdminDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEFkbWluRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Dashboard/CatererDashboard.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Dashboard/CatererDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXENhdGVyZXJEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Dashboard/UserDashboard.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Dashboard/UserDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXFVzZXJEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Documents/Agreement.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Documents/Agreement.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRzXEFncmVlbWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Documents/Receipt.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Documents/Receipt.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRzXFJlY2VpcHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Foods/Create.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Foods/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Foods/Delete.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Foods/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Foods/Edit.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Foods/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Foods/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Foods/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Home/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Home/Privacy.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Home/RestaurantMenus.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Home/RestaurantMenus.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZXN0YXVyYW50TWVudXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Notifications/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Messages/Room.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzc2FnZXNcUm9vbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Notifications/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Payment/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Payment/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Payment/Success.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Payment/Success.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudFxTdWNjZXNzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Profile/Index.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Profile/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Ratings/Create.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Ratings/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF0aW5nc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Ratings/MyCompletedOrders.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Ratings/MyCompletedOrders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF0aW5nc1xNeUNvbXBsZXRlZE9yZGVycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Shared/Error.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/_ViewImports.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/_ViewStart.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/YemekAlemi/Views/Shared/_Layout.cshtml]
+[C:/Users/Mustafa-Work/Desktop/Ceng382_25-26_202211047/Yemekalemi/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-pk7o551mzu
